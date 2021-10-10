@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEDatabase">
         <activity
+            android:name=".splash.SplashActivity"
+            android:exported="true" />
+        <activity
+            android:name=".splash.SplashActicity"
+            android:exported="true" />
+        <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
             <intent-filter>
