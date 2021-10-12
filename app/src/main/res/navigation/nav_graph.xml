@@ -29,9 +29,16 @@
         tools:layout="@layout/activity_splash" />
     <fragment
         android:id="@+id/home2"
-        android:name="com.nhom2.bedatabase.presentation.fragments.Home"
+        android:name="com.nhom2.bedatabase.presentation.fragments.home.Home"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home2_to_gameFragment"
+            app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_home2_to_listVocabularyFragment"
+            app:destination="@id/listVocabularyFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUp"
         android:name="com.nhom2.bedatabase.presentation.fragments.sign_up.SignUp"
@@ -41,4 +48,23 @@
             android:id="@+id/action_signUp_to_home2"
             app:destination="@id/home2" />
     </fragment>
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.nhom2.bedatabase.presentation.fragments.game.GameFragment"
+        android:label="fragment_game"
+        tools:layout="@layout/fragment_game" >
+        <action
+            android:id="@+id/action_gameFragment_to_gamePlayFragment"
+            app:destination="@id/gamePlayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gamePlayFragment"
+        android:name="com.nhom2.bedatabase.presentation.fragments.game.GamePlayFragment"
+        android:label="fragment_game_play"
+        tools:layout="@layout/fragment_game_play" />
+    <fragment
+        android:id="@+id/listVocabularyFragment"
+        android:name="com.nhom2.bedatabase.presentation.fragments.vocabulary.ListVocabularyFragment"
+        android:label="fragment_list_vocabulary"
+        tools:layout="@layout/fragment_list_vocabulary" />
 </navigation>
