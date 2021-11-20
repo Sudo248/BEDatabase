@@ -51,7 +51,7 @@ module.exports = class AccountDB{
 
     static getAccountById(id){
         const sql = `
-        SELLECT * FROM accounts
+        SELECT * FROM accounts
         WHERE  account_id = ${id} LIMIT 1;
         `;
         return db.execute(sql);
@@ -59,8 +59,8 @@ module.exports = class AccountDB{
 
     static getAccountByEmail(email){
         const sql = `
-        SELLECT * FROM accounts
-        WHERE email = ${email} LIMIT 1;
+        SELECT * FROM accounts
+        WHERE email = '${email}';
         `;
         return db.execute(sql);
     }

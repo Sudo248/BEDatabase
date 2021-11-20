@@ -29,7 +29,7 @@ module.exports = class VnDB{
         SET 
             eng_id = '${this.eng_id}',
             content = '${this.content}'
-        WHERE  vn_id = ${this.vn_id};
+        WHERE vn_id = ${this.vn_id};
         `;
         return db.execute(sql);
     }
@@ -37,7 +37,7 @@ module.exports = class VnDB{
     static deleteVnById(id){
         const sql = `
         DELETE FROM vns
-        WHERE  vn_id = ${id};
+        WHERE vn_id = ${id};
         `;
         return db.execute(sql);
     }
@@ -52,7 +52,7 @@ module.exports = class VnDB{
     static getVnById(id){
         const sql = `
         SELLECT * FROM vns
-        WHERE  vn_id = ${id} LIMIT 1;
+        WHERE vn_id = ${id} LIMIT 1;
         `;
         return db.execute(sql);
     }
@@ -60,7 +60,15 @@ module.exports = class VnDB{
     static getVnByEngId(eng_id){
         const sql = `
         SELLECT * FROM vns
-        WHERE  eng_id = ${eng_id};
+        WHERE eng_id = ${eng_id};
+        `;
+        return db.execute(sql);
+    }
+
+    static deleteVnByEngId(eng_id){
+        const sql = `
+        DELETE FROM vns
+        WHERE eng_id = ${id};
         `;
         return db.execute(sql);
     }

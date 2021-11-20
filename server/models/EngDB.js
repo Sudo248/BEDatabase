@@ -15,7 +15,6 @@ module.exports = class EngDB{
         this.content = content;
         this.type = type;
         this.path_image = path_image;
-
     }
 
     insert(){

@@ -48,6 +48,14 @@ module.exports = class JunctionUserEng{
         return db.execute(sql);
     }
 
+    static deleteJunctionByEngId(id){
+        const sql = `
+        DELETE FROM junction_user_eng
+        WHERE  eng_id = ${id};
+        `;
+        return db.execute(sql);
+    }
+
     static getAllJunction(){
 
     }
