@@ -3,7 +3,7 @@
     package="com.nhom2.bedatabase">
 
     <application
-        android:name=".di.MyApplication"
+        android:name=".presentation.di.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,14 +11,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BEDatabase">
         <activity
-            android:name=".presentation.MainActivity"
-            android:exported="true">
+            android:name=".presentation.ui.sign.SignActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.ui.splash.SplashActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".presentation.ui.main.MainActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

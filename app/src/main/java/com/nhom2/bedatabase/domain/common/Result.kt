@@ -1,4 +1,4 @@
-package com.nhom2.bedatabase.common
+package com.nhom2.bedatabase.domain.common
 
 // states of data when call API or Database
 sealed class Result<out T>{
