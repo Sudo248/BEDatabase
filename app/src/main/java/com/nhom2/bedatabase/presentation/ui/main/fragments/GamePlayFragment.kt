@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nhom2.bedatabase.R
-import com.nhom2.bedatabase.databinding.FragmentGroupBinding
+import com.nhom2.bedatabase.databinding.FragmentGamePlayBinding
 
-class GroupFragment : Fragment() {
-    lateinit var binding: FragmentGroupBinding
+class GamePlayFragment : Fragment() {
+    lateinit var binding: FragmentGamePlayBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentGroupBinding.inflate(inflater, container, false)
+        binding = FragmentGamePlayBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -22,5 +22,4 @@ class GroupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
-
 }

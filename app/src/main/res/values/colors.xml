@@ -7,11 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
+    <color name="red">#ED4E13</color>
     <color name="main_light">#739CFF</color>
     <color name="main_medium">#5D8BFB</color>
     <color name="main_light_plus">#E65EC7DD</color>
 
     <color name="gray_dark">#373737</color>
 
+    <color name="game_corner">#2BB0CC</color>
+    <color name="game_background">#5EC7DD</color>
 </resources>
