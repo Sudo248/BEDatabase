@@ -6,5 +6,6 @@ data class Eng(
     val pronunciation: String,
     val content: String,
     val type: String,
-    val path_image: String
+    val path_image: String,
+    val listVn: MutableList<Vn> = mutableListOf()
 )
