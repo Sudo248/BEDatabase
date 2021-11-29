@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentNewGameBinding
+import com.nhom2.bedatabase.presentation.ui.sign.fragments.SignInFragment
 
 class NewGameFragment : Fragment() {
     lateinit var binding: FragmentNewGameBinding

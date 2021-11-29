@@ -32,8 +32,8 @@ module.exports.signUp = async(req, res, next) => {
         account = await account.insert();
         await userDB.insert();
         console.log("create account: ",account.email);
-        // tao token de gui la cho user
-        return res.status(200).json({message:"Create account success", email});
+        
+        return res.status(200).json({message:"Create account success", account_id: account.account_id});
         
     } catch (error) {
         next(error);
@@ -78,7 +78,7 @@ module.exports.signIn = async(req, res, next) => {
             return res.status(401).json({message:"Error when generate token"});
         }
         
-        return res.status(200).json({message:"Login success",email,token});
+        return res.status(200).json({message:"Login success",account_id:account.account_id,token});
     
     } catch (error) {
         next(error);

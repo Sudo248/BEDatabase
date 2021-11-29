@@ -7,12 +7,15 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign out</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="search">Search</string>
     <string name="vocabulary">Vocabulary</string>
     <string name="group">Group</string>
+    <string name="change_password">Change Password</string>
+    <string name="vocabulary_list">Vocabulary List</string>
 
     <string name="home">Home</string>
     <string name="game">Game</string>
@@ -45,4 +48,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="passwords_mismatch">Please make sure your passwords match</string>
 </resources>

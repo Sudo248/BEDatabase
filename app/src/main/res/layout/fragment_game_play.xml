@@ -152,8 +152,8 @@
             android:layout_marginBottom="60dp"
             android:text="@string/wrong_answer"
             android:textColor="@color/red"
+            android:visibility="gone"
             android:textSize="20sp"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
