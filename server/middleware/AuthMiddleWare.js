@@ -7,9 +7,8 @@ module.exports.isAuth = async(req, res, next) => {
         
         const accessTokenFromHeader = req.headers.access_token;
         
-        console.log("header:", JSON.stringify(req.headers))
+        // console.log("header:", JSON.stringify(req.headers))
     
-
         if(!accessTokenFromHeader){
             return res.status(401).json({message:"You must put access token to header"});
         }

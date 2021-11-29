@@ -6,9 +6,11 @@ const vnController = require('../controller/VnController');
 
 router
     .route('/')
-    .put(vnController.postVns)
-    .post(vnController.postVns);
+    .put(vnController.putVn)
+    .post(vnController.postVn)
 
-router.route('/:id').delete(vnController.deleteVn);
+router
+    .route('/:id')
+    .delete(vnController.deleteVn);
 
 module.exports = router;

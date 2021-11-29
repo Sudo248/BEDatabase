@@ -19,4 +19,15 @@ class Pref(context: Context) {
         editor.putString("token", token)
         editor.apply()
     }
+
+    suspend fun getCurrentUserId(): Int{
+        return prefs.getInt("user_id",-1)
+    }
+
+    suspend fun saveCurrentUserId(user_id: Int){
+        val editor = prefs.edit()
+        editor.putInt("user_id", user_id)
+        editor.apply()
+    }
+
 }

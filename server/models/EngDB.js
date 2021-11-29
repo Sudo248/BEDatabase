@@ -63,8 +63,8 @@ module.exports = class EngDB{
 
     static getEngById(id){
         const sql = `
-        SELLECT * FROM engs
-        WHERE  eng_id = ${id} LIMIT 1;
+        SELECT * FROM engs
+        WHERE  eng_id = ${id};
         `;
         return db.execute(sql);
     }

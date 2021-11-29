@@ -5,7 +5,7 @@ module.exports.getAllGroup = async(req, res, next) => {
         
         const [groups, _] = await GroupEngDB.getAllGroup();
 
-        res.status(200).json({length:groups.length, groups});
+        res.status(200).json(groups);
 
     } catch (error) {
         next(error);
@@ -16,8 +16,8 @@ module.exports.getGroupById = async(req, res, next) => {
     try {
         
         const id = req.params.id;
-        const [group, _] = await GroupEngDB.getGroupById(id);
-        res.status(200).json({group});
+        const [groups, _] = await GroupEngDB.getGroupById(id);
+        res.status(200).json(groups[0]);
     
     } catch (error) {
         next(error);

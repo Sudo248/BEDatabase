@@ -1,4 +1,4 @@
-package com.nhom2.bedatabase.presentation.ui.main.fragments
+package com.nhom2.bedatabase.presentation.ui.main.fragments.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.nhom2.bedatabase.R
 
-class VocabularyFragment : Fragment() {
+class ProfileFragment : Fragment() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +20,7 @@ class VocabularyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vocabulary, container, false)
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
 
