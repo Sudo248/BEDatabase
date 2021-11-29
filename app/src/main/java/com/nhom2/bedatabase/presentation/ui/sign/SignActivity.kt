@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.nhom2.bedatabase.R
+import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.databinding.ActivitySignBinding
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.repository.MainRepository
@@ -33,9 +34,13 @@ class SignActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        checkToken()
         setUpUi()
         observer()
+    }
+
+    private fun checkToken(){
+        if (!Utils.access_token.isNullOrBlank()) viewModel.signInWithToken()
     }
 
     private fun setUpUi(){
