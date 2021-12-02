@@ -19,7 +19,6 @@ class MainRepositoryImpl(
     private val TAG = "MainRepositoryImpl"
     override suspend fun signIn(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
-        delay(100)
         try {
             Log.d("TAG", "signIn: ${account.password}")
             val accountResponse = api.signIn(account.toAccountRequest())
@@ -40,7 +39,6 @@ class MainRepositoryImpl(
 
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
-        delay(100)
         try {
             api.signUp(account.toAccountRequest())
             emit(Result.Success(true))
@@ -110,6 +108,7 @@ class MainRepositoryImpl(
             emit(Result.Success(listEng))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
+            Log.e(TAG, "getEngsByUserId: ${e.message}")
         }
     }
 

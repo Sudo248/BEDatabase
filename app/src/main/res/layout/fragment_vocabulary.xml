@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp"
+    android:layout_marginTop="20dp"
+    android:paddingHorizontal="20dp"
+    android:paddingTop="20dp"
     android:background="@drawable/rectangle_white_top_left_top_right_conner_25"
     tools:context=".presentation.ui.main.fragments.vocabulary.VocabularyFragment">
 
@@ -24,6 +26,8 @@
         android:layout_marginTop="10dp"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/tv_vocabulary_list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

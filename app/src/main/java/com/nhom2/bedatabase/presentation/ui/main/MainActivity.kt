@@ -2,11 +2,14 @@ package com.nhom2.bedatabase.presentation.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.view.marginLeft
 import androidx.core.view.marginStart
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -16,18 +19,20 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
+        observer()
     }
 
     fun navigate(id: Int){
         navController.navigate(id)
     }
 
-    fun setUpViewGame(){
+    fun setUpViewFullScreen(){
         binding.headerMain.visibility = View.GONE
         binding.bottomNavigation.visibility = View.GONE
 
@@ -37,4 +42,22 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.visibility = View.VISIBLE
         binding.headerMain.visibility = View.VISIBLE
     }
+
+    private fun observer(){
+        viewModel.user.observe(this){
+            Log.d("path_image", "observer: ${it.path_image}")
+            if(it.path_image == null){
+                Glide.with(this).load(R.drawable.avatar_default).into(binding.userImg)
+            }
+        }
+
+        viewModel.vocabularies.observe(this){
+            binding.tvNumVocabularyHeader.text = "${it.size}"
+        }
+
+        viewModel.groups.observe(this){
+            binding.tvNumGroupHeader.text = "${it.size}"
+        }
+    }
+
 }
