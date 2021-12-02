@@ -1,5 +1,6 @@
 package com.nhom2.bedatabase.presentation.ui.main.view_models
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ class ProfileViewModel @Inject constructor(
     fun changeImage(path: String){
         _user.value?.let{
             it.path_image = path
+            Log.e("change image", path, )
         }
         _user.postValue(_user.value)
     }
