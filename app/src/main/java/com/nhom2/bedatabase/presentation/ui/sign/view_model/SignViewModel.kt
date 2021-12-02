@@ -80,7 +80,7 @@ class SignViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO){
             mainRepository.signUp(Account(
                 email = email.value,
-                password = password.value
+                password = Utils.hash(password.value.toString())
             )).collect{
                 when(it){
                     is Result.Loading ->{

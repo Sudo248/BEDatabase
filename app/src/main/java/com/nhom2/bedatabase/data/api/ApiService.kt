@@ -8,10 +8,10 @@ import retrofit2.http.*
 
 interface ApiService {
 
-    @GET("/signUp")
+    @POST("/signUp")
     suspend fun signUp(@Body account: AccountRequest): AccountResponse
 
-    @GET("/signIn")
+    @POST("/signIn")
     suspend fun signIn(@Body account: AccountRequest): AccountResponse
 
     @GET("/signOut")

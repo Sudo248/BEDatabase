@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.databinding.FragmentSignInBinding
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.presentation.ui.sign.view_model.SignViewModel
@@ -24,8 +25,10 @@ class SignInFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tryToSignInWithToken()
         with(binding){
             tiedtEmail.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrBlank()){
@@ -43,5 +46,9 @@ class SignInFragment : Fragment() {
                 binding.tilSignInPassword.error = it.message
             }
         }
+    }
+
+    private fun tryToSignInWithToken(){
+        viewModel.signInWithToken()
     }
 }

@@ -1,5 +1,6 @@
 package com.nhom2.bedatabase.presentation.ui.sign
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import com.nhom2.bedatabase.databinding.ActivitySignBinding
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.repository.MainRepository
 import com.nhom2.bedatabase.presentation.ui.main.LoadingScreen
+import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.sign.fragments.SignInFragment
 import com.nhom2.bedatabase.presentation.ui.sign.fragments.SignUpFragment
 import com.nhom2.bedatabase.presentation.ui.sign.view_model.SignViewModel
@@ -34,14 +36,10 @@ class SignActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        checkToken()
         setUpUi()
         observer()
     }
 
-    private fun checkToken(){
-        if (!Utils.access_token.isNullOrBlank()) viewModel.signInWithToken()
-    }
 
     private fun setUpUi(){
         viewSignIn()
@@ -73,12 +71,12 @@ class SignActivity: AppCompatActivity() {
                 }
                 is Result.Error ->{
                     loadingScreen.dismiss()
-
                 }
                 else ->{
 //                    navigate to Home
                     if (isSignIn){
-                        //navigate to Home
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
                     } else {
                         //navigate back to SignIn
                         viewModel.passwordsIsEqual.value?.let{ equal ->
@@ -87,7 +85,6 @@ class SignActivity: AppCompatActivity() {
                                 viewSignIn()
                             }
                         }
-
                     }
                 }
             }

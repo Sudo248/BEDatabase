@@ -10,8 +10,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentGamePlayBinding
+import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.view_models.GameViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GamePlayFragment : Fragment() {
     private lateinit var binding: FragmentGamePlayBinding
     private val viewModel by activityViewModels<GameViewModel>()
@@ -66,5 +69,10 @@ class GamePlayFragment : Fragment() {
             }
             viewModel.getRandomWord()
         }
+    }
+
+    override fun onDestroy() {
+        (activity as MainActivity).resetView()
+        super.onDestroy()
     }
 }

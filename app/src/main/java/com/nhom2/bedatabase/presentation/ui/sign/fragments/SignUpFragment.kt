@@ -56,8 +56,7 @@ class SignUpFragment : Fragment() {
         }
         viewModel.result.observe(viewLifecycleOwner){
             if (it is Result.Error){
-                TODO("Set error on layout password?")
-                binding.tilSignUpPassword.error = it.message
+                binding.tilSignUpConfirmPassword.error = it.message
             }
         }
     }

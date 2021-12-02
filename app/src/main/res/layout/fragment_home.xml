@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:background="@drawable/bg_activity"
+    android:padding="20dp"
     tools:context=".presentation.ui.main.fragments.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="24sp"
+                android:singleLine="true"
                 android:text="@string/vocabulary" />
         </LinearLayout>
 

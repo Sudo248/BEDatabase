@@ -1,5 +1,6 @@
 package com.nhom2.bedatabase.data.repository
 
+import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
@@ -8,6 +9,7 @@ import com.nhom2.bedatabase.data.util.toAccountRequest
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.models.*
 import com.nhom2.bedatabase.domain.repository.MainRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -18,6 +20,7 @@ class MainRepositoryImpl(
     override suspend fun signIn(account: Account): Flow<Result<Account>> = flow{
         emit(Result.Loading)
         try {
+            Log.e("MainrepositoryIml", "signIn: ${account.toAccountRequest()}", )
             val accountResponse = api.signIn(account.toAccountRequest())
             if (accountResponse.account_id == null){
                 emit(Result.Error(accountResponse.message))
@@ -34,7 +37,7 @@ class MainRepositoryImpl(
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            val accountResponse = api.signIn(account.toAccountRequest())
+            val accountResponse = api.signUp(account.toAccountRequest())
             if (accountResponse.account_id == null){
                 emit(Result.Error(accountResponse.message))
             }else{
@@ -56,7 +59,8 @@ class MainRepositoryImpl(
     override suspend fun signInWithToken(): Flow<Result<User?>> = flow{
         emit(Result.Loading)
         try {
-
+            delay(1000)
+            emit(Result.Error("Error"))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }

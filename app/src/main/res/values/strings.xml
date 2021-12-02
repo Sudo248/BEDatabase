@@ -42,7 +42,6 @@
     <string name="add_new_group">New group</string>
     <string name="group_name">Group\'s name</string>
     <string name="cancel">Cancel</string>
-    <string name="change_password">Change password</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
 
