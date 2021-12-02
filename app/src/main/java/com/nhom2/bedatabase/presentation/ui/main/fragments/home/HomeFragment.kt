@@ -37,6 +37,7 @@ class HomeFragment : Fragment() {
                 nav.navigate(R.id.action_homeFragment_to_newGameFragment)
             }
             linearLayout6.setOnClickListener {
+                (activity as MainActivity).setUpViewGame()
                 nav.navigate(R.id.action_homeFragment_to_profileFragment)
             }
         }

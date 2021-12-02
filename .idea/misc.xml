@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/bg_left_right_activity.xml" value="0.3106481481481482" />
         <entry key="app/src/main/res/drawable/ic_baseline_east_24.xml" value="0.34269662921348315" />
         <entry key="app/src/main/res/drawable/ic_bottom.xml" value="0.34269662921348315" />
+        <entry key="app/src/main/res/drawable/ic_check.xml" value="0.3055555555555556" />
         <entry key="app/src/main/res/drawable/ic_top.xml" value="0.34269662921348315" />
         <entry key="app/src/main/res/drawable/item_navigation.xml" value="0.3106481481481482" />
         <entry key="app/src/main/res/drawable/rectangle_bg_activity_conner_25.xml" value="0.3106481481481482" />
@@ -21,7 +22,7 @@
         <entry key="app/src/main/res/layout/fragment_group.xml" value="0.2875341219290264" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.32916666666666666" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.32916666666666666" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.5" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_vocabulary.xml" value="0.2875341219290264" />

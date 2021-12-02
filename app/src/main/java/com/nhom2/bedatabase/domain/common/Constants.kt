@@ -4,4 +4,5 @@ package com.nhom2.bedatabase.domain.common
 object Constants {
     const val BASE_URL = "http://97fd-42-114-89-231.ngrok.io"
     const val ALGORITHM_HASH = "SHA-1"
+    const val REQUEST_SELECT_AVATAR = 1
 }
