@@ -20,8 +20,8 @@ users (
 CREATE TABLE 
 group_engs (
     group_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50),
-    description VARCHAR(255)
+    name NVARCHAR(50),
+    description NVARCHAR(255)
 );
     
 
@@ -41,7 +41,7 @@ CREATE TABLE
 vns(
     vn_id INT AUTO_INCREMENT PRIMARY KEY,
     eng_id INT ,
-    content VARCHAR(255),
+    content NVARCHAR(255),
     FOREIGN KEY (eng_id) REFERENCES engs(eng_id)
 );
     

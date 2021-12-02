@@ -1,15 +1,12 @@
 package com.nhom2.bedatabase.data.repository
 
-import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
-import com.nhom2.bedatabase.data.util.toAccount
 import com.nhom2.bedatabase.data.util.toAccountRequest
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.models.*
 import com.nhom2.bedatabase.domain.repository.MainRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -17,17 +14,17 @@ class MainRepositoryImpl(
     private val api: ApiService,
     private val pref: Pref
 ) : MainRepository {
-    override suspend fun signIn(account: Account): Flow<Result<Account>> = flow{
+    override suspend fun signIn(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            Log.e("MainrepositoryIml", "signIn: ${account.toAccountRequest()}", )
             val accountResponse = api.signIn(account.toAccountRequest())
             if (accountResponse.account_id == null){
                 emit(Result.Error(accountResponse.message))
             }else{
                 Utils.access_token = accountResponse.token
                 pref.saveToken(accountResponse.token)
-                emit(Result.Success(accountResponse.toAccount()))
+                pref.saveCurrentUserId(accountResponse.account_id)
+                emit(Result.Success(true))
             }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
@@ -37,12 +34,8 @@ class MainRepositoryImpl(
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            val accountResponse = api.signUp(account.toAccountRequest())
-            if (accountResponse.account_id == null){
-                emit(Result.Error(accountResponse.message))
-            }else{
-                emit(Result.Success(true))
-            }
+            api.signUp(account.toAccountRequest())
+            emit(Result.Success(true))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
@@ -56,69 +49,163 @@ class MainRepositoryImpl(
         }
     }
 
-    override suspend fun signInWithToken(): Flow<Result<User?>> = flow{
+    override suspend fun signInWithToken(): Flow<Result<User>> = flow{
         emit(Result.Loading)
         try {
-            delay(1000)
-            emit(Result.Error("Error"))
+            val token = pref.getToken()
+            val userId = pref.getCurrentUserId()
+            if(token == null || userId == -1){
+                emit(Result.Error("Token null or user id invalid"))
+            }
+            else{
+                val user = api.getUser(userId)
+
+                emit(Result.Success(user))
+            }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
     }
 
-    override suspend fun getUser(): Flow<Result<User>> {
-        TODO("Not yet implemented")
+    override suspend fun getUser(): Flow<Result<User>> = flow{
+        emit(Result.Loading)
+        try {
+            val userId = pref.getCurrentUserId()
+            val user = api.getUser(userId)
+            emit(Result.Success(user))
+
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun putUser(): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun putUser(user: User): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.putUser(user)
+            emit(Result.Success(true))
+
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun getEngsByUserId(user_id: Int): Flow<Result<Eng>> {
-        TODO("Not yet implemented")
+    override suspend fun getEngsByUserId(user_id: Int): Flow<Result<List<Eng>>> = flow{
+        emit(Result.Loading)
+        try {
+            val listEng = api.getEngsByUserId(user_id)
+            emit(Result.Success(listEng))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun getEngsByGroupId(group_id: Int): Flow<Result<Eng>> {
-        TODO("Not yet implemented")
+    override suspend fun getEngsByGroupId(group_id: Int): Flow<Result<List<Eng>>> = flow{
+        emit(Result.Loading)
+        try {
+            val listEng = api.getEngsByGroupId(group_id)
+            emit(Result.Success(listEng))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun postEng(eng: Eng): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun postEng(eng: Eng): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.postEng(eng)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun putEng(eng: Eng): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun putEng(eng: Eng): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.putEng(eng)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun deleteEng(eng_id: Int): Flow<Result<Nothing>> {
-        TODO("Not yet implemented")
+    override suspend fun deleteEng(eng_id: Int): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.deleteEngById(eng_id)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun getGroups(): Flow<Result<Group>> {
-        TODO("Not yet implemented")
+    override suspend fun getGroups(): Flow<Result<List<Group>>> = flow{
+        emit(Result.Loading)
+        try {
+            val listGroup = api.getGroups()
+            emit(Result.Success(listGroup))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun postGroup(group: Group): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun postGroup(group: Group): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.postGroup(group)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun putGroup(group: Group): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun putGroup(group: Group): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.putGroup(group)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
+    }
+    override suspend fun deleteGroup(group_id: Int): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.deleteGroupById(group_id)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun deleteGroup(group_id: Int): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun postVnByEngId(vn: Vn): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.postVn(vn)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun postVnByEngId(vn: Vn): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun putVnByEngId(vn: Vn): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.putVn(vn)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 
-    override suspend fun putVnByEngId(vn: Vn): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteVn(vn_id: Int): Flow<Result<Boolean>> {
-        TODO("Not yet implemented")
+    override suspend fun deleteVn(vn_id: Int): Flow<Result<Boolean>> = flow{
+        emit(Result.Loading)
+        try {
+            api.deleteVn(vn_id)
+            emit(Result.Success(true))
+        }catch (e: Exception){
+            emit(Result.Error("${e.message}"))
+        }
     }
 }

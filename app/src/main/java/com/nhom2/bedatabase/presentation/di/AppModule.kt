@@ -33,6 +33,6 @@ object AppModule {
     fun provideMainRepository(
         pref: Pref,
         api: ApiService
-    ): MainRepository = MainRepositoryImpl(pref = pref, api = api)
+    ): MainRepository = MainRepositoryImpl(pref = pref, api = api) as MainRepository
 
 }

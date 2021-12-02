@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp"
     android:background="@drawable/rectangle_white_top_left_top_right_conner_25"
-    tools:context=".presentation.ui.main.fragments.GroupFragment">
+    tools:context=".presentation.ui.main.fragments.group.GroupFragment">
 
     <TextView
         android:id="@+id/tv_group_list"

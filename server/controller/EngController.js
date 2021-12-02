@@ -1,6 +1,7 @@
 const EngDB = require('../models/EngDB');
 const JunctionUserEng = require('../models/JunctionUserEng');
 const VnDB = require('../models/VnDB');
+const EngRes = require('../models/EngResponse')
 
 module.exports.getAllEng = async(req, res, next) => {
     try {
@@ -10,12 +11,12 @@ module.exports.getAllEng = async(req, res, next) => {
 
         for(const engDB of engDBs){
 
-            const [vnDB,_] = await VnDB.getVnByEngId(engDB.eng_id)
+            const [vnDBs,__] = await VnDB.getVnByEngId(engDB.eng_id)
 
-            engs.push({eng: engDB, vn: vnDB})
+            engs.push(new EngRes(engDB, vnDBs))
         }
 
-        res.status(200).json({length:engs.length, engs});
+        res.status(200).json(engs);
 
     } catch (error) {
         next(error)
@@ -32,12 +33,12 @@ module.exports.getEngByUserId = async(req, res, next) => {
 
         for(const engDB of engDBs){
 
-            const [vnDB, _] = await VnDB.getVnByEngId(engDB.eng_id)
+            const [vnDBs, __] = await VnDB.getVnByEngId(engDB.eng_id)
 
-            engs.push({eng: engDB, vn: vnDB})
+            engs.push(new EngRes(engDB, vnDBs))
         }
 
-        res.status(200).json({engs});
+        res.status(200).json(engs);
 
     } catch (error) {
         next(error)
@@ -54,12 +55,12 @@ module.exports.getEngByGroupId = async(req, res, next) => {
 
         for(const engDB of engDBs){
 
-            const [vnDB, _] = await VnDB.getVnByEngId(engDB.eng_id)
+            const [vnDBs,__] = await VnDB.getVnByEngId(engDB.eng_id)
 
-            engs.push({eng: engDB, vn: vnDB})
+            engs.push(new EngRes(engDB, vnDBs))
         }
 
-        res.status(200).json({engs});
+        res.status(200).json(engs);
 
     } catch (error) {
         next(error)
@@ -73,9 +74,9 @@ module.exports.getEngById = async(req, res, next) => {
 
         const [engDB,_] = await EngDB.getEngById(id);
 
-        const [vnDB,__] = await VnDB.getVnByEngId(id)
+        const [vnDBs,__] = await VnDB.getVnByEngId(id)
 
-        res.status(200).json({eng: engDB, vn: vnDB});
+        res.status(200).json(new EngRes(engDB[0], vnDBs));
         
     } catch (error) {
         next(error);
@@ -93,12 +94,12 @@ module.exports.getEngByType = async(req, res, next) => {
 
         for(const engDB of engDBs){
 
-            const [vnDB, _] = await VnDB.getVnByEngId(engDB.eng_id)
+            const [vnDBs, __] = await VnDB.getVnByEngId(engDB.eng_id)
 
-            engs.push({eng: engDB, vn: vnDB})
+            engs.push(new EngRes(engDB, vnDBs))
         }
 
-        res.status(200).json({engs});
+        res.status(200).json(engs);
         
     } catch (error) {
         next(error);
@@ -114,8 +115,7 @@ module.exports.postEng = async(req, res, next) => {
             pronunciation,
             content,
             type,
-            path_image,
-            translates
+            path_image
         } = req.body;
 
         const eng = new EngDB(
@@ -131,21 +131,21 @@ module.exports.postEng = async(req, res, next) => {
 
         console.log("New eng after insert ", newEng[0].eng_id)
 
-        for(const translate of translates){
+        // for(const vn of vns){
 
-            const vn = new VnDB(
-                null,
-                newEng[0].eng_id,
-                translate
-            )
-            await vn.insert();
-        }
+        //     const newVn = new VnDB(
+        //         null,
+        //         newEng[0].eng_id,
+        //         vn
+        //     )
+        //     await newVn.insert();
+        // }
 
         const junctionUserEng = new JunctionUserEng(user_id, eng_id);
 
         await junctionUserEng.insert();
 
-        res.status(200).json({message:"Post Eng success", id: newEng[0]})
+        res.status(200).json({id: newEng[0]})
         
     } catch (error) {
         next(error);
@@ -174,7 +174,7 @@ module.exports.putEng = async(req, res, next) => {
             path_image
         )
         await eng.update()
-        res.status(200).json({message:"Put Eng success", id: eng.eng_id})
+        res.status(200).json({id: eng.eng_id})
         
     } catch (error) {
         next(error);

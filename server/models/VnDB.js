@@ -51,7 +51,7 @@ module.exports = class VnDB{
 
     static getVnById(id){
         const sql = `
-        SELLECT * FROM vns
+        SELECT * FROM vns
         WHERE vn_id = ${id} LIMIT 1;
         `;
         return db.execute(sql);
@@ -59,7 +59,7 @@ module.exports = class VnDB{
 
     static getVnByEngId(eng_id){
         const sql = `
-        SELLECT * FROM vns
+        SELECT * FROM vns
         WHERE eng_id = ${eng_id};
         `;
         return db.execute(sql);

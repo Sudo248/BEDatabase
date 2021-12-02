@@ -19,21 +19,21 @@ module.exports.signUp = async(req, res, next) => {
 
         const [oldAccounts, _] = await AccountDB.getAccountByEmail(email);
 
-        console.log(oldAccounts);
+        console.log(oldAccounts[0]);
 
         if(oldAccounts.length > 0){
             return res.status(409).json({message : "This account already sign up"})
         }
 
         const hashPassword = bcrypt.hashSync(password, 10);
-        const account = new AccountDB(null, email, hashPassword);
+        let account = new AccountDB(null, email, hashPassword);
         // tao user cung voi account 
-        const userDB = new UserDB(account.account_id, "user_name", null);
-        account = await account.insert();
+        const userDB = new UserDB(null, "user_name", null);
+        await account.insert();
         await userDB.insert();
-        console.log("create account: ",account.email);
+        console.log("create account: ",account.email,account.account_id);
         
-        return res.status(200).json({message:"Create account success", account_id: account.account_id});
+        return res.status(200).json({account_id: account.account_id});
         
     } catch (error) {
         next(error);
@@ -55,8 +55,9 @@ module.exports.signIn = async(req, res, next) => {
         if(!account){
             return res.status(401).json({message:"Invalid account"});
         }
-        const hashPassword = bcrypt.hashSync('admin', 10);
-        console.log(hashPassword)
+        
+        // const hashPassword = bcrypt.hashSync('admin', 10);
+        // console.log(hashPassword)
 
         const isPasswordValid = bcrypt.compareSync(password, account.password);
         if(!isPasswordValid){
@@ -95,11 +96,11 @@ module.exports.getAccount = async(req, res, next) => {
         const query = req.query;
 
         if(query.email){
-            const [account, _] = await AccountDB.getAccountByEmail(query.email);
-            res.status(200).json({account});
+            const [accounts, _] = await AccountDB.getAccountByEmail(query.email);
+            res.status(200).json(accounts[0]);
         }else{
             const [accounts, _] = await AccountDB.getAllAccount();
-            res.status(200).json({length:accounts.length, accounts});
+            res.status(200).json(accounts);
         }
 
 
@@ -113,8 +114,8 @@ module.exports.getAccountById = async(req, res, next) => {
         
         const id = req.params.id;
 
-        const [account, _] = await AccountDB.getAccountById(id);
-        res.status(200).json({account});
+        const [accounts, _] = await AccountDB.getAccountById(id);
+        res.status(200).json(accounts[0]);
     
     } catch (error) {
         next(error);

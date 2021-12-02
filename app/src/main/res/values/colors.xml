@@ -14,6 +14,8 @@
 
     <color name="gray_dark">#373737</color>
 
+    <color name="gray">#3A3939</color>
+
     <color name="game_corner">#2BB0CC</color>
     <color name="game_background">#5EC7DD</color>
     <color name="correct">#04C200</color>

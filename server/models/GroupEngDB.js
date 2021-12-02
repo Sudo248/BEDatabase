@@ -51,7 +51,7 @@ module.exports = class GroupEng{
 
     static getGroupById(id){
         const sql = `
-        SELLECT * FROM group_engs
+        SELECT * FROM group_engs
         WHERE  group_id = ${id} LIMIT 1;
         `;
         return db.execute(sql);

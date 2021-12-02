@@ -30,7 +30,7 @@ class SignActivity: AppCompatActivity() {
     var isSignIn: Boolean = true
     private val viewModel: SignViewModel by viewModels()
     private val TAG = "Sign Activity"
-    val loadingScreen by lazy {LoadingScreen()}
+    private val loadingScreen by lazy {LoadingScreen()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

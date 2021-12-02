@@ -27,6 +27,31 @@ module.exports.postVns = async(req, res, next) => {
 
 }
 
+module.exports.postVn = async(req, res, next) => {
+
+    try{
+
+        const {
+            eng_id,
+            content
+        } = req.body;
+
+        const vn = new VnDB(
+            null,
+            eng_id,
+            content
+        )
+
+        await vn.insert()
+
+        res.status(200).json({message:"Add Vn success"})
+
+    }catch(error){
+        next(error)
+    }
+
+}
+
 module.exports.putVns = async(req, res, next) => {
 
     try {
@@ -49,6 +74,34 @@ module.exports.putVns = async(req, res, next) => {
         }
 
         res.status(200).json({message:"Update Vn for Eng success", eng_id})
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+module.exports.putVn = async(req, res, next) => {
+
+    try {
+
+        const {
+            vn_id,
+            eng_id,
+            vn
+        } = req.body;
+
+        
+        const updateVn = new VnDB(
+            vn_id,
+            eng_id,
+            content
+        )
+
+        await updateVn.update()
+
+        
+        res.status(200).json({message:"Update Vn for Eng success", vn_id})
         
     } catch (error) {
         next(error)

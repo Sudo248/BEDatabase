@@ -11,7 +11,7 @@ module.exports.getUser = async(req, res, next) => {
             res.status(200).json({user});
         }else{
             const [users, _] = await UserDB.getAllUser();
-            res.status(200).json({length:users.length, users});
+            res.status(200).json(users);
         }
 
     } catch (error) {
@@ -26,7 +26,7 @@ module.exports.getUserById = async(req, res, next) => {
         const [userDB, _] = await UserDB.getUserById(id);
 
         if(userDB){
-            res.status(200).json({userDB});
+            res.status(200).json(userDB);
         }else{
             res.status(409).json({message:"User invalid"})
         }

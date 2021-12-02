@@ -1,4 +1,4 @@
-package com.nhom2.bedatabase.presentation.ui.main.fragments
+package com.nhom2.bedatabase.presentation.ui.main.fragments.group
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
