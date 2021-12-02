@@ -54,6 +54,7 @@ class MainRepositoryImpl(
 
     override suspend fun signOut() {
         try {
+            pref.saveToken(null)
             api.signOut()
         }catch (e:Exception){
             e.printStackTrace()
@@ -72,6 +73,7 @@ class MainRepositoryImpl(
             else{
                 Utils.access_token = token
                 val user = api.getUser(userId)
+                pref.saveCurrentUser(user)
                 emit(Result.Success(true))
             }
         }catch (e: Exception){

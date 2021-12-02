@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +18,9 @@ import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentProfileBinding
 import com.nhom2.bedatabase.domain.common.Constants
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
-import com.nhom2.bedatabase.presentation.ui.main.view_models.ProfileViewModel
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.presentation.ui.main.LoadingScreen
+import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,8 +29,10 @@ import java.io.File
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<MainViewModel>()
     private val loadingScreen by lazy {LoadingScreen()}
+    private var pathImg: String? = null
+    private var isUpdate = false
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -65,49 +68,51 @@ class ProfileFragment : Fragment() {
                     edtNameUser.clearFocus()
                 }
             }
+            cardSaveChange.setOnClickListener {
+                isUpdate = true
+                viewModel.updateUser(edtNameUser.text.toString(), pathImg)
+            }
+            cardSignOut.setOnClickListener {
+                viewModel.signOut()
+                (activity as MainActivity).backToSignActivity()
+            }
         }
 
     }
     private fun observer() {
-        viewModel.result.observe(viewLifecycleOwner){
-            when(it){
-                is Result.Loading -> {
-                    loadingScreen.show(childFragmentManager, null)
-                }
-                is Result.Error -> {
-                    if (loadingScreen.isVisible) loadingScreen.dismiss()
-                }
-                else -> {
-
-                }
+        viewModel.isLoading.observe(viewLifecycleOwner){
+            if (it)
+                loadingScreen.show(childFragmentManager, null)
+            else {
+                if (loadingScreen.isVisible) loadingScreen.dismiss()
+                if (isUpdate) (activity as MainActivity).navigate(R.id.action_profileFragment_to_homeFragment)
             }
         }
         viewModel.user.observe(viewLifecycleOwner){
+            Log.e("info", "observer: $it", )
             binding.edtNameUser.setText(it.user_name)
             it.path_image?.let {
                 lifecycleScope.launch(Dispatchers.IO) {
                     val imgFile = File(it)
                     withContext(Dispatchers.Main) {
-                        if (imgFile.exists()) {
-                            binding.imgAvatar.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
-                        }
+//                        binding.imgAvatar.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
                     }
                 }
             }
         }
     }
 
-    override fun onDestroy() {
+    override fun onDestroyView() {
         (activity as MainActivity).resetView()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Constants.REQUEST_SELECT_AVATAR){
             data?.let{
-                it.data?.path?.let {
-                        it1 -> viewModel.changeImage(it1)
-                }
+                pathImg= it.data?.path
+                Log.e("path image", "$pathImg" )
+
                 binding.imgAvatar.setImageURI(it.data)
             }
         }

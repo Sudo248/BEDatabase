@@ -1,5 +1,6 @@
 package com.nhom2.bedatabase.presentation.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.ActivityMainBinding
+import com.nhom2.bedatabase.presentation.ui.sign.SignActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.groups.observe(this){
             binding.tvNumGroupHeader.text = "${it.size}"
         }
+    }
+    fun backToSignActivity(){
+        startActivity(Intent(this, SignActivity::class.java))
+        finish()
     }
 
 }

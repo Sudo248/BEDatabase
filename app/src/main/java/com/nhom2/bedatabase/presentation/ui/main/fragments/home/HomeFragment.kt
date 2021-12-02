@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
                 nav.navigate(R.id.action_homeFragment_to_newGameFragment)
             }
             linearLayout6.setOnClickListener {
-                (activity as MainActivity).setUpViewGame()
+                (activity as MainActivity).setUpViewFullScreen()
                 nav.navigate(R.id.action_homeFragment_to_profileFragment)
             }
         }

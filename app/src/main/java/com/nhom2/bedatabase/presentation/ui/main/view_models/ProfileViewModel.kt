@@ -43,6 +43,7 @@ class ProfileViewModel @Inject constructor(
                         _result.postValue(it)
                     }
                     is Result.Success -> {
+
                     }
                     is Result.Error -> {
                         _result.postValue(it)
