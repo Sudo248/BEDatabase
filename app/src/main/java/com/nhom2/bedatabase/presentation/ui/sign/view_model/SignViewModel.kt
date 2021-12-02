@@ -9,7 +9,6 @@ import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.models.Account
 import com.nhom2.bedatabase.domain.repository.MainRepository
-import com.nhom2.bedatabase.presentation.ui.main.LoadingScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -33,8 +32,8 @@ class SignViewModel @Inject constructor(
     private var _passwordsIsEqual: MutableLiveData<Boolean> = MutableLiveData(true)
     val passwordsIsEqual: LiveData<Boolean> = _passwordsIsEqual
 
-    private var _result: MutableLiveData<Result<Nothing>> = MutableLiveData()
-    val result: LiveData<Result<Nothing>> = _result
+    private var _result: MutableLiveData<Result<Boolean>> = MutableLiveData()
+    val result: LiveData<Result<Boolean>> = _result
 
     fun setEmail(email: String){
         Log.d(TAG, "setEmail: $email", )
@@ -67,6 +66,7 @@ class SignViewModel @Inject constructor(
                         _result.postValue(it)
                     }
                     is Result.Success -> {
+                        _result.postValue(Result.Success(true))
                     }
                     is Result.Error ->{
                         _result.postValue(it)
@@ -87,7 +87,7 @@ class SignViewModel @Inject constructor(
                         _result.postValue(it)
                     }
                     is Result.Success -> {
-
+                        _result.postValue(Result.Success(true))
                     }
                     is Result.Error ->{
                         _result.postValue(it)
@@ -105,7 +105,7 @@ class SignViewModel @Inject constructor(
                         _result.postValue(it)
                     }
                     is Result.Success -> {
-
+                        _result.postValue(Result.Success(true))
                     }
                     is Result.Error ->{
                         _result.postValue(it)

@@ -78,8 +78,8 @@ module.exports.signIn = async(req, res, next) => {
         if(!token){
             return res.status(401).json({message:"Error when generate token"});
         }
-        
-        return res.status(200).json({message:"Login success",account_id:account.account_id,token});
+        console.log("Login success",account.account_id,token)
+        res.status(200).json({message:"Login success",account_id:account.account_id,token});
     
     } catch (error) {
         next(error);

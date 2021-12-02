@@ -32,16 +32,19 @@ class SignUpFragment : Fragment() {
                 if (!text.isNullOrBlank()){
                     viewModel.setEmail(text.toString())
                 }
+                tilSignUpConfirmPassword.error = null
             }
             tiedtPassword.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrBlank()){
                     viewModel.setPassword(text.toString())
                 }
+                tilSignUpConfirmPassword.error = null
             }
             tiedtConfirmPassword.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrBlank()){
                     viewModel.setConfirmPassword(text.toString())
                 }
+                tilSignUpConfirmPassword.error = null
             }
         }
         viewModel.confirmPassword.observe(viewLifecycleOwner){
@@ -56,7 +59,13 @@ class SignUpFragment : Fragment() {
         }
         viewModel.result.observe(viewLifecycleOwner){
             if (it is Result.Error){
-                binding.tilSignUpConfirmPassword.error = it.message
+                if(!binding.tilSignUpEmail.editText?.text.isNullOrBlank()
+                    || !binding.tilSignUpPassword.editText?.text.isNullOrBlank()
+                    || !binding.tilSignUpConfirmPassword.editText?.text.isNullOrBlank()
+                ){
+                    binding.tilSignUpConfirmPassword.error = it.message
+                }
+
             }
         }
     }

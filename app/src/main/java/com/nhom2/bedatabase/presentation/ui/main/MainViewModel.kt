@@ -31,14 +31,7 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.getUser().collect {
-                if(it is Result.Success){
-                    it.data?.let{user ->
-                        _user.postValue(user)
-                        getDataForUser(user.user_id)
-                    }
-                }
-            }
+            _user.postValue(repo.getUserFromSharePref())
         }
 
     }

@@ -51,7 +51,7 @@ module.exports = class UserDB{
 
     static getUserById(id){
         const sql = `
-        SELLECT * FROM users
+        SELECT * FROM users
         WHERE  user_id = ${id} LIMIT 1;
         `;
         return db.execute(sql);

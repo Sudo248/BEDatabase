@@ -40,7 +40,6 @@ class SignActivity: AppCompatActivity() {
         observer()
     }
 
-
     private fun setUpUi(){
         viewSignIn()
         with(binding){
@@ -68,12 +67,18 @@ class SignActivity: AppCompatActivity() {
             when(it){
                 is Result.Loading -> {
                     loadingScreen.show(supportFragmentManager, null)
+                    binding.root.isFocusable = false
                 }
                 is Result.Error ->{
-                    loadingScreen.dismiss()
+                    if(loadingScreen.isVisible){
+                        loadingScreen.dismiss()
+                        binding.root.isFocusable = true
+                    }
                 }
                 else ->{
 //                    navigate to Home
+                    if(loadingScreen.isVisible)
+                        loadingScreen.dismiss()
                     if (isSignIn){
                         startActivity(Intent(this, MainActivity::class.java))
                         finish()

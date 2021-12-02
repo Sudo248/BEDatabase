@@ -34,16 +34,21 @@ class SignInFragment : Fragment() {
                 if (!text.isNullOrBlank()){
                     viewModel.setEmail(text.toString())
                 }
+                tilSignInPassword.error = null
+
             }
             tiedtPassword.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrBlank()){
                     viewModel.setPassword(text.toString())
                 }
+                tilSignInPassword.error = null
             }
         }
         viewModel.result.observe(viewLifecycleOwner){
             if (it is Result.Error){
-                binding.tilSignInPassword.error = it.message
+                if(!binding.tilSignInEmail.editText?.text.isNullOrBlank() || !binding.tilSignInPassword.editText?.text.isNullOrBlank()){
+                    binding.tilSignInPassword.error = it.message
+                }
             }
         }
     }
