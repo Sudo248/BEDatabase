@@ -110,7 +110,7 @@ class SignActivity: AppCompatActivity() {
         isSignIn = false
     }
 
-    private fun navigateFragment(position: Int = 0){
+    fun navigateFragment(position: Int = 0){
         when(position){
             0 -> {
                 supportFragmentManager.beginTransaction()

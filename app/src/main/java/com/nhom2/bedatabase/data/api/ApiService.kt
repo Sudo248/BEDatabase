@@ -12,7 +12,7 @@ import retrofit2.http.*
 interface ApiService {
 
     @POST("/signUp")
-    suspend fun signUp(@Body account: AccountRequest)
+    suspend fun signUp(@Body account: AccountRequest): AccountResponse
 
     @POST("/signIn")
     suspend fun signIn(@Body account: AccountRequest): AccountResponse
