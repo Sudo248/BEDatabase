@@ -27,7 +27,7 @@ module.exports.getEngByUserId = async(req, res, next) => {
     try {
         let engs = []
         
-        const user_id = req.params.user_id;
+        const user_id = req.query.user_id;
 
         const [engDBs,_] = await EngDB.getEngByUserId(user_id);
 
@@ -37,6 +37,8 @@ module.exports.getEngByUserId = async(req, res, next) => {
 
             engs.push(new EngRes(engDB, vnDBs))
         }
+
+        console.log(engs)
 
         res.status(200).json(engs);
 
@@ -49,7 +51,7 @@ module.exports.getEngByGroupId = async(req, res, next) => {
     try {
         let engs = []
         
-        const group_id = req.params.group_id;
+        const group_id = req.query.group_id;
 
         const [engDBs,_] = await EngDB.getEngByGroupId(group_id);
 
@@ -88,7 +90,7 @@ module.exports.getEngByType = async(req, res, next) => {
 
         let engs = []
         
-        const type = req.params.type;
+        const type = req.query.type;
 
         const [engDBs,_] = await EngDB.getEngByType(type);
 

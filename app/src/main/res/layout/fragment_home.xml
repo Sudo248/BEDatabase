@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     tools:background="@drawable/bg_activity"
-    tools:context=".presentation.ui.main.fragments.home.HomeFragment">
+    tools:context=".presentation.ui.main.fragments.home.HomeFragment"
     android:padding="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +39,7 @@
                 android:src="@drawable/vocabulary" />
 
             <TextView
-                android:id="@+id/tv_num_vocabulary_home"
+                android:id="@+id/tv_vocabulary_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -69,7 +69,7 @@
                 android:src="@drawable/group" />
 
             <TextView
-                android:id="@+id/tv_num_group_home"
+                android:id="@+id/tv_group_home"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

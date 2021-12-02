@@ -1,5 +1,6 @@
 package com.nhom2.bedatabase.data.repository
 
+import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
@@ -7,6 +8,7 @@ import com.nhom2.bedatabase.data.util.toAccountRequest
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.models.*
 import com.nhom2.bedatabase.domain.repository.MainRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -14,28 +16,37 @@ class MainRepositoryImpl(
     private val api: ApiService,
     private val pref: Pref
 ) : MainRepository {
+    private val TAG = "MainRepositoryImpl"
     override suspend fun signIn(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
+            Log.d("TAG", "signIn: ${account.password}")
             val accountResponse = api.signIn(account.toAccountRequest())
             if (accountResponse.account_id == null){
-                emit(Result.Error(accountResponse.message))
+                emit(Result.Error("${accountResponse.message}"))
             }else{
                 Utils.access_token = accountResponse.token
                 pref.saveToken(accountResponse.token)
-                pref.saveCurrentUserId(accountResponse.account_id)
+                val user = api.getUser(accountResponse.account_id)
+                pref.saveCurrentUser(user)
                 emit(Result.Success(true))
             }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
+            Log.e("TAG", "signIn: ${e.message}")
         }
     }
 
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            api.signUp(account.toAccountRequest())
-            emit(Result.Success(true))
+            val accountResponse = api.signUp(account.toAccountRequest())
+            if (accountResponse.account_id == null) {
+                Log.e(TAG, "signUp: ${accountResponse.message}", )
+                emit(Result.Error("${accountResponse.message}"))
+            } else {
+                emit(Result.Success(true))
+            }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
@@ -49,18 +60,19 @@ class MainRepositoryImpl(
         }
     }
 
-    override suspend fun signInWithToken(): Flow<Result<User>> = flow{
+    override suspend fun signInWithToken(): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
             val token = pref.getToken()
             val userId = pref.getCurrentUserId()
+            Log.d(TAG, "signInWithToken: $token \n$userId")
             if(token == null || userId == -1){
                 emit(Result.Error("Token null or user id invalid"))
             }
             else{
+                Utils.access_token = token
                 val user = api.getUser(userId)
-
-                emit(Result.Success(user))
+                emit(Result.Success(true))
             }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
@@ -72,11 +84,15 @@ class MainRepositoryImpl(
         try {
             val userId = pref.getCurrentUserId()
             val user = api.getUser(userId)
+            pref.saveCurrentUser(user)
             emit(Result.Success(user))
-
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
+    }
+
+    override suspend fun getUserFromSharePref(): User? {
+        return pref.getCurrentUser()
     }
 
     override suspend fun putUser(user: User): Flow<Result<Boolean>> = flow{
@@ -97,6 +113,7 @@ class MainRepositoryImpl(
             emit(Result.Success(listEng))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
+            Log.e(TAG, "getEngsByUserId: ${e.message}")
         }
     }
 

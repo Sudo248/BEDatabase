@@ -12,7 +12,7 @@ import retrofit2.http.*
 interface ApiService {
 
     @POST("/signUp")
-    suspend fun signUp(@Body account: AccountRequest)
+    suspend fun signUp(@Body account: AccountRequest): AccountResponse
 
     @POST("/signIn")
     suspend fun signIn(@Body account: AccountRequest): AccountResponse
@@ -26,14 +26,14 @@ interface ApiService {
     @PUT("/user")
     suspend fun putUser(@Body user: User, @Header("access_token") token: String? = access_token)
 
-    @GET("/eng/{use_id}")
-    suspend fun getEngsByUserId(@Path("user_id") user_id: Int, @Header("access_token") token: String? = access_token): List<Eng>
+    @GET("/eng")
+    suspend fun getEngsByUserId(@Query("user_id") user_id: Int, @Header("access_token") token: String? = access_token): List<Eng>
 
-    @GET("/eng/{group_id}")
-    suspend fun getEngsByGroupId(@Path("group_id") group_id: Int, @Header("access_token") token: String? = access_token): List<Eng>
+    @GET("/eng")
+    suspend fun getEngsByGroupId(@Query("group_id") group_id: Int, @Header("access_token") token: String? = access_token): List<Eng>
 
-    @GET("/eng/{type}")
-    suspend fun getEngsByType(@Path("type") type: String, @Header("access_token") token: String? = access_token): List<Eng>
+    @GET("/eng")
+    suspend fun getEngsByType(@Query("type") type: String, @Header("access_token") token: String? = access_token): List<Eng>
 
     @GET("/eng/{id}")
     suspend fun getEngById(@Path("id") id: Int, @Header("access_token") token: String? = access_token): Eng

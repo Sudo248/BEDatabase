@@ -12,9 +12,11 @@ interface MainRepository {
 
     suspend fun signOut()
 
-    suspend fun signInWithToken(): Flow<Result<User>>
+    suspend fun signInWithToken(): Flow<Result<Boolean>>
 
     suspend fun getUser(): Flow<Result<User>>
+
+    suspend fun getUserFromSharePref(): User?
 
     suspend fun putUser(user: User): Flow<Result<Boolean>>
 

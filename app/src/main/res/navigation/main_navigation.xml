@@ -13,7 +13,11 @@
         android:id="@+id/vocabularyFragment"
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.vocabulary.VocabularyFragment"
         android:label="fragment_vocabulary"
-        tools:layout="@layout/fragment_vocabulary" />
+        tools:layout="@layout/fragment_vocabulary" >
+        <action
+            android:id="@+id/action_vocabularyFragment_to_editWordFragment"
+            app:destination="@id/editWordFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newGameFragment"
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.NewGameFragment"
@@ -56,4 +60,9 @@
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.GamePlayFragment"
         android:label="fragment_game_play"
         tools:layout="@layout/fragment_game_play" />
+    <fragment
+        android:id="@+id/editWordFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.EditWordFragment"
+        android:label="fragment_edit_word"
+        tools:layout="@layout/fragment_edit_word" />
 </navigation>
