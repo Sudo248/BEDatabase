@@ -34,12 +34,8 @@ class MainRepositoryImpl(
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            val accountResponse = api.signUp(account.toAccountRequest())
-            if (accountResponse.account_id == null){
-                emit(Result.Error(accountResponse.message))
-            }else{
-                emit(Result.Success(true))
-            }
+            api.signUp(account.toAccountRequest())
+            emit(Result.Success(true))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
@@ -63,6 +59,7 @@ class MainRepositoryImpl(
             }
             else{
                 val user = api.getUser(userId)
+
                 emit(Result.Success(user))
             }
         }catch (e: Exception){

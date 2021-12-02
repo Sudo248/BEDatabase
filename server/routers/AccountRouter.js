@@ -8,7 +8,7 @@ const accountController = require('../controller/AccountController');
 
 router
     .route('/signIn')
-    .get(accountController.signIn);
+    .post(accountController.signIn);
 
 router
     .route('/signUp')

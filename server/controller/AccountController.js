@@ -19,19 +19,19 @@ module.exports.signUp = async(req, res, next) => {
 
         const [oldAccounts, _] = await AccountDB.getAccountByEmail(email);
 
-        console.log(oldAccounts);
+        console.log(oldAccounts[0]);
 
         if(oldAccounts.length > 0){
             return res.status(409).json({message : "This account already sign up"})
         }
 
         const hashPassword = bcrypt.hashSync(password, 10);
-        const account = new AccountDB(null, email, hashPassword);
+        let account = new AccountDB(null, email, hashPassword);
         // tao user cung voi account 
-        const userDB = new UserDB(account.account_id, "user_name", null);
-        account = await account.insert();
+        const userDB = new UserDB(null, "user_name", null);
+        await account.insert();
         await userDB.insert();
-        console.log("create account: ",account.email);
+        console.log("create account: ",account.email,account.account_id);
         
         return res.status(200).json({account_id: account.account_id});
         
@@ -47,7 +47,7 @@ module.exports.signIn = async(req, res, next) => {
             password
         } = req.body;
         
-        // console.log(`email: ${email}, password: ${password}`)
+        console.log(`email: ${email}, password: ${password}`)
 
         const [accounts,_] = await AccountDB.getAccountByEmail(email);
         const account = accounts[0];
