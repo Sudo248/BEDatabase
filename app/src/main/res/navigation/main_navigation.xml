@@ -11,7 +11,7 @@
         tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/vocabularyFragment"
-        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.VocabularyFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.vocabulary.VocabularyFragment"
         android:label="fragment_vocabulary"
         tools:layout="@layout/fragment_vocabulary" />
     <fragment
@@ -25,12 +25,12 @@
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.ProfileFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.HomeFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/groupFragment"
-        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.GroupFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.group.GroupFragment"
         android:label="fragment_group"
         tools:layout="@layout/fragment_group" />
     <fragment

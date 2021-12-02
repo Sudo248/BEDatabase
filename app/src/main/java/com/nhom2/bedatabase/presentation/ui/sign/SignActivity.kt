@@ -70,7 +70,7 @@ class SignActivity: AppCompatActivity() {
                     loadingScreen.show(supportFragmentManager, null)
                 }
                 is Result.Error ->{
-                    loadingScreen.dismiss()
+                    if (loadingScreen.isVisible) loadingScreen.dismiss()
                 }
                 else ->{
 //                    navigate to Home

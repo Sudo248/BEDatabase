@@ -28,6 +28,7 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
+            tilSignUpConfirmPassword.error = null
             tiedtEmail.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrBlank()){
                     viewModel.setEmail(text.toString())

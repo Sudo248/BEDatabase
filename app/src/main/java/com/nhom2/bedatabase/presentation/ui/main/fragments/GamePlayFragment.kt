@@ -31,10 +31,10 @@ class GamePlayFragment : Fragment() {
         viewModel.randomQuestions.observe(viewLifecycleOwner){
             with(binding){
                 tvQuestion.text = it[viewModel.answerIndex].content
-                btnAnswer1.text = it[0].listVn[0].content
-                btnAnswer2.text = it[1].listVn[0].content
-                btnAnswer3.text = it[2].listVn[0].content
-                btnAnswer4.text = it[3].listVn[0].content
+                btnAnswer1.text = it[0].vns[0].content
+                btnAnswer2.text = it[1].vns[0].content
+                btnAnswer3.text = it[2].vns[0].content
+                btnAnswer4.text = it[3].vns[0].content
             }
         }
 
