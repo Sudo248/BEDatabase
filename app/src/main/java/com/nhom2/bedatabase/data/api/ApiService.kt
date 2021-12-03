@@ -16,7 +16,7 @@ interface ApiService {
     suspend fun signIn(@Body account: AccountRequest): Response<AccountResponse>
 
     @PUT("/changePassword")
-    suspend fun changePassword(@Body account: Account)
+    suspend fun changePassword(@Body account: Account): Response<AccountResponse>
 
     @GET("/signOut")
     suspend fun signOut()

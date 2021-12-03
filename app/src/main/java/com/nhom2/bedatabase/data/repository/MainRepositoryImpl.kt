@@ -59,7 +59,7 @@ class MainRepositoryImpl(
     override suspend fun changePassword(account_id: Int, newPassword: String): Flow<Result<Boolean>> = flow {
         emit(Result.Loading)
         try {
-            api.changePassword(Account(account_id = account_id, password = newPassword))
+
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
