@@ -58,7 +58,11 @@
         android:id="@+id/groupFragment"
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.group.GroupFragment"
         android:label="fragment_group"
-        tools:layout="@layout/fragment_group" />
+        tools:layout="@layout/fragment_group" >
+        <action
+            android:id="@+id/action_groupFragment_to_vocabularyFragment"
+            app:destination="@id/vocabularyFragment" />
+    </fragment>
     <fragment
         android:id="@+id/gamePlayFragment"
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.GamePlayFragment"

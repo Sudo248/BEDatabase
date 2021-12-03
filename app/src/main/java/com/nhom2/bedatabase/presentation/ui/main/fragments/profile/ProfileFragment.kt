@@ -76,6 +76,9 @@ class ProfileFragment : Fragment() {
                 viewModel.signOut()
                 (activity as MainActivity).backToSignActivity()
             }
+            cardChangePassword.setOnClickListener {
+                //TODO: Change password
+            }
         }
 
     }
