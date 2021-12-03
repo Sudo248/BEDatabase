@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentVocabularyBinding
+import com.nhom2.bedatabase.domain.common.Constants.ADD_ACTION
 import com.nhom2.bedatabase.domain.common.Constants.CURRENT_GROUP_ID
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
@@ -61,8 +62,13 @@ class VocabularyFragment : Fragment() {
 
     private fun setUpUi() {
         (activity as MainActivity).showAddFabButton(true)
-        (activity as MainActivity).addOnClick = {
-//            (activity as MainActivity).navigate(R.id.)
+        (activity as MainActivity).setAddOnClickListener {
+            Log.d(TAG, "setUpUi: addOnClick")
+            val bundle: Bundle? = null
+            current_group_id?.let{
+                bundle?.putInt(ADD_ACTION, it)
+            }
+            (activity as MainActivity).navigate(R.id.action_vocabularyFragment_to_addNewWordFragment, bundle)
         }
         adapter = VocabularyAdapter(
             onEditEngClick = {

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel: MainViewModel by viewModels()
-    lateinit var addOnClick: () -> Unit
+    private val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -33,9 +33,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpUi(){
         navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
-        binding.fabAddWord.setOnClickListener {
-            addOnClick
-        }
     }
 
     private fun observer(){
@@ -80,6 +77,11 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddWord.visibility = if(b) View.VISIBLE else View.GONE
     }
 
-
+    fun setAddOnClickListener(onClick: ()-> Unit){
+        binding.fabAddWord.setOnClickListener {
+            Log.d(TAG, "setUpUi: addOnClick")
+            onClick()
+        }
+    }
 
 }

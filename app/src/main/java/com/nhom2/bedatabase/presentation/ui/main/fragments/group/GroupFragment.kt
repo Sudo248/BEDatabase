@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentGroupBinding
+import com.nhom2.bedatabase.domain.common.Constants.ADD_ACTION
 import com.nhom2.bedatabase.domain.common.Constants.CURRENT_GROUP_ID
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
@@ -40,6 +41,7 @@ class GroupFragment : Fragment() {
     }
 
     private fun setUpUi() {
+        
         adapter = GroupAdapter(
             onEditGroupClick = {
                 onEditGroupClick(it)

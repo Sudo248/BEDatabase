@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_vocabularyFragment_to_editWordFragment"
             app:destination="@id/editWordFragment" />
+        <action
+            android:id="@+id/action_vocabularyFragment_to_addNewWordFragment"
+            app:destination="@id/addNewWordFragment" />
     </fragment>
     <fragment
         android:id="@+id/newGameFragment"
@@ -73,4 +76,9 @@
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.EditWordFragment"
         android:label="fragment_edit_word"
         tools:layout="@layout/fragment_edit_word" />
+    <fragment
+        android:id="@+id/addNewWordFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.AddNewWordFragment"
+        android:label="fragment_add_new_word"
+        tools:layout="@layout/fragment_add_new_word" />
 </navigation>

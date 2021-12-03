@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nhom2.bedatabase.R
+import com.nhom2.bedatabase.databinding.FragmentAddNewWordBinding
+import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 
 class AddNewWordFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentAddNewWordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +23,23 @@ class AddNewWordFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_new_word, container, false)
+        binding = FragmentAddNewWordBinding.inflate(layoutInflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpUi()
+    }
+
+    private fun setUpUi() {
+        (activity as MainActivity).showAddFabButton(false)
+        (activity as MainActivity).setUpViewFullScreen()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        (activity as MainActivity).resetView()
     }
 
 }
