@@ -1,6 +1,7 @@
 package com.nhom2.bedatabase.presentation.ui.main.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -11,7 +12,8 @@ import com.nhom2.bedatabase.domain.models.Group
 class GroupAdapter(
     private val onEditGroupClick: (pos: Int) -> Unit,
     private val onDeleteGroupClick: (pos: Int) -> Unit,
-    private val onOpenGroup: (group_id: Int) -> Unit
+    private val onOpenGroup: (group_id: Int) -> Unit,
+    private val isEnableEditAndDelete: Boolean = true
 ) : ListAdapter<Group, GroupAdapter.ViewHolder>(
     object: DiffUtil.ItemCallback<Group>(){
         override fun areItemsTheSame(oldItem: Group, newItem: Group) = oldItem.group_id == newItem.group_id
@@ -27,6 +29,10 @@ class GroupAdapter(
                 }
                 btnDeleteGroup.setOnClickListener {
                     onDeleteGroupClick(position)
+                }
+                if (!isEnableEditAndDelete){
+                    btnDeleteGroup.visibility = View.GONE
+                    btnEditGroup.visibility = View.GONE
                 }
                 root.setOnClickListener {
                     onOpenGroup(group.group_id)

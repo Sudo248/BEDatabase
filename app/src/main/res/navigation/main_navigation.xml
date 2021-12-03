@@ -72,5 +72,25 @@
         android:id="@+id/editWordFragment"
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.EditWordFragment"
         android:label="fragment_edit_word"
-        tools:layout="@layout/fragment_edit_word" />
+        tools:layout="@layout/fragment_edit_word" >
+        <action
+            android:id="@+id/action_editWordFragment_to_chooseGroupFragment"
+            app:destination="@id/chooseGroupFragment" />
+        <action
+            android:id="@+id/action_editWordFragment_to_vocabularyFragment"
+            app:destination="@id/vocabularyFragment"
+            app:popUpTo="@id/editWordFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/chooseGroupFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.ChooseGroupFragment"
+        android:label="fragment_choose_group"
+        tools:layout="@layout/fragment_choose_group" >
+        <action
+            android:id="@+id/action_chooseGroupFragment_to_editWordFragment"
+            app:destination="@id/editWordFragment"
+            app:popUpTo="@id/chooseGroupFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

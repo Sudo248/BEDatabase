@@ -27,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
         setUpUi()
         observer()
     }
@@ -36,6 +37,20 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddWord.setOnClickListener {
             addOnClick
         }
+    fun navigate(id: Int, bundle: Bundle? = null, popBackStack: Boolean = false){
+        navController.navigate(id, bundle)
+        if (popBackStack) supportFragmentManager.popBackStack()
+    }
+
+    fun setUpViewFullScreen(){
+        binding.headerMain.visibility = View.GONE
+        binding.bottomNavigation.visibility = View.GONE
+        showAddFabButton(false)
+    }
+
+    fun resetView(){
+        binding.bottomNavigation.visibility = View.VISIBLE
+        binding.headerMain.visibility = View.VISIBLE
     }
 
     private fun observer(){

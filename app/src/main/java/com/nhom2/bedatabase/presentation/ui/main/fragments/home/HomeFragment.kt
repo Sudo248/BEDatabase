@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentHomeBinding
+import com.nhom2.bedatabase.presentation.ui.main.LoadingScreen
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
 
@@ -17,6 +18,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var nav: NavController
     private val viewModel: MainViewModel by activityViewModels()
+    private val loadingScreen by lazy{LoadingScreen()}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +56,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun observer(){
-
+        viewModel.isLoading.observe(viewLifecycleOwner){
+            if (it) {
+                loadingScreen.show(childFragmentManager, null)
+            } else {
+                if (loadingScreen.isVisible) loadingScreen.dismiss()
+            }
+        }
     }
 
 }
