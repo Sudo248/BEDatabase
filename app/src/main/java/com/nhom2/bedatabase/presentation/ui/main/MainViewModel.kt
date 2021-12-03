@@ -156,4 +156,7 @@ class MainViewModel @Inject constructor(
         return nameGroup
     }
 
+    fun changePassword(password: String){
+
+    }
 }
