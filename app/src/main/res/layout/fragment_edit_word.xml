@@ -124,6 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
+                android:layout_marginStart="20dp"
                 tools:listitem="@layout/spinner_type_item"
                 />
         </LinearLayout>

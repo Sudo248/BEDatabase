@@ -41,7 +41,7 @@ class EditWordFragment : Fragment() {
 
     private fun setUpUi() {
         (activity as MainActivity).setUpViewFullScreen()
-        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.spinner_type_item,R.id.spn_type , resources.getStringArray(R.array.Types))
+        val spinnerAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.Types, R.layout.spinner_type_item)
         spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         binding.spnType.adapter = spinnerAdapter
 

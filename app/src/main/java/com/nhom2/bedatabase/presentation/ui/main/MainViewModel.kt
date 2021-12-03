@@ -57,6 +57,28 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun updateUser(userName: String, pathImg: String? = null){
+        val user = _user.value!!
+        user.user_name = userName
+        user.path_image = pathImg
+        _user.postValue(user)
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.putUser(user).collect {
+                when(it) {
+                    is Result.Loading -> {
+                        _isLoading.postValue(true)
+                    } else -> _isLoading.postValue(false)
+                }
+            }
+        }
+    }
+
+    fun signOut(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.signOut()
+        }
+    }
+
     private fun getDataForUser(user_id: Int){
         viewModelScope.launch(Dispatchers.IO) {
             repo.getEngsByUserId(user_id).collect{ result ->

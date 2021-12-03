@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun toSignActivity(){
-        //for testing home
+//        for testing home
 //        startActivity(Intent(this, MainActivity::class.java))
 //        finish()
 

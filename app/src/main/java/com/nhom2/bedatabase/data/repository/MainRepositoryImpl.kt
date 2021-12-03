@@ -23,7 +23,7 @@ class MainRepositoryImpl(
             Log.d("TAG", "signIn: ${account.password}")
             val accountResponse = api.signIn(account.toAccountRequest())
             if (accountResponse.account_id == null){
-                emit(Result.Error(accountResponse.message))
+                emit(Result.Error("${accountResponse.message}"))
             }else{
                 Utils.access_token = accountResponse.token
                 pref.saveToken(accountResponse.token)
@@ -40,8 +40,13 @@ class MainRepositoryImpl(
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            api.signUp(account.toAccountRequest())
-            emit(Result.Success(true))
+            val accountResponse = api.signUp(account.toAccountRequest())
+            if (accountResponse.account_id == null) {
+                Log.e(TAG, "signUp: ${accountResponse.message}", )
+                emit(Result.Error("${accountResponse.message}"))
+            } else {
+                emit(Result.Success(true))
+            }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
@@ -49,6 +54,7 @@ class MainRepositoryImpl(
 
     override suspend fun signOut() {
         try {
+            pref.saveToken(null)
             api.signOut()
         }catch (e:Exception){
             e.printStackTrace()
@@ -67,6 +73,7 @@ class MainRepositoryImpl(
             else{
                 Utils.access_token = token
                 val user = api.getUser(userId)
+                pref.saveCurrentUser(user)
                 emit(Result.Success(true))
             }
         }catch (e: Exception){

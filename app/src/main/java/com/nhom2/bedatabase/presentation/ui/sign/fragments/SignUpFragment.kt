@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentSignUpBinding
 import com.nhom2.bedatabase.domain.common.Result
+import com.nhom2.bedatabase.presentation.ui.sign.SignActivity
 import com.nhom2.bedatabase.presentation.ui.sign.view_model.SignViewModel
 
 
@@ -28,6 +29,7 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding){
+            tilSignUpConfirmPassword.error = null
             tiedtEmail.doOnTextChanged { text, _, _, _ ->
                 if (!text.isNullOrBlank()){
                     viewModel.setEmail(text.toString())
@@ -65,7 +67,8 @@ class SignUpFragment : Fragment() {
                 ){
                     binding.tilSignUpConfirmPassword.error = it.message
                 }
-
+            } else if (it is Result.Success){
+                (activity as SignActivity).navigateFragment(0)
             }
         }
     }
