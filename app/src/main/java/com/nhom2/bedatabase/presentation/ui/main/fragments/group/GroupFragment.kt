@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentGroupBinding
+import com.nhom2.bedatabase.domain.common.Constants.CURRENT_GROUP_ID
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
 import com.nhom2.bedatabase.presentation.ui.main.adapter.GroupAdapter
@@ -50,6 +51,7 @@ class GroupFragment : Fragment() {
                 onOpenGroup(it)
             }
         )
+        binding.rcvGroupList.adapter = adapter
     }
 
     private fun onEditGroupClick(pos: Int){
@@ -61,7 +63,9 @@ class GroupFragment : Fragment() {
         viewModel.deleteGroup(pos)
     }
 
-    private fun onOpenGroup(pos: Int){
-        //TODO: Open Group to display vocabulary
+    private fun onOpenGroup(group_id: Int){
+        val bundle = Bundle()
+        bundle.putInt(CURRENT_GROUP_ID, group_id)
+        (activity as MainActivity).navigate(R.id.action_groupFragment_to_vocabularyFragment, bundle)
     }
 }

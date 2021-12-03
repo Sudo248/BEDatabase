@@ -59,8 +59,6 @@ class EditWordFragment : Fragment() {
             edtVnWord.setText(vocabulary!!.vns[0].content)
             edtPronunciation.setText(vocabulary!!.pronunciation)
             tvGroupType.text = viewModel.getGroupNameById(vocabulary!!.group_id)
-
-
         }
     }
 

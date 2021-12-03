@@ -2,14 +2,12 @@ package com.nhom2.bedatabase.data.repository
 
 import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
-import com.nhom2.bedatabase.data.models.AccountRequest
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.data.util.toAccountRequest
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.models.*
 import com.nhom2.bedatabase.domain.repository.MainRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -23,18 +21,23 @@ class MainRepositoryImpl(
         try {
             Log.d("TAG", "signIn: ${account.password}")
             val accountResponse = api.signIn(account.toAccountRequest())
-            if (accountResponse.account_id == null){
-                emit(Result.Error("${accountResponse.message}"))
+            if(accountResponse.isSuccessful){
+                val accountBody = accountResponse.body()!!
+                Utils.access_token = accountBody.token
+                pref.saveToken(accountBody.token)
+                val userResponse = api.getUser(accountBody.account_id)
+                if(userResponse.isSuccessful){
+                    val user = userResponse.body()!!
+                    pref.saveCurrentUser(user)
+                    emit(Result.Success(true))
+                }else{
+                    emit(Result.Error(userResponse.errorBody()?.string().toString()))
+                }
             }else{
-                Utils.access_token = accountResponse.token
-                pref.saveToken(accountResponse.token)
-                val user = api.getUser(accountResponse.account_id)
-                pref.saveCurrentUser(user)
-                emit(Result.Success(true))
+                emit(Result.Error(accountResponse.errorBody()?.string().toString()))
             }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
-            Log.e("TAG", "signIn: ${e.message}")
         }
     }
 
@@ -42,12 +45,12 @@ class MainRepositoryImpl(
         emit(Result.Loading)
         try {
             val accountResponse = api.signUp(account.toAccountRequest())
-            if (accountResponse.account_id == null) {
-                Log.e(TAG, "signUp: ${accountResponse.message}", )
-                emit(Result.Error("${accountResponse.message}"))
-            } else {
+            if(accountResponse.isSuccessful){
                 emit(Result.Success(true))
+            }else{
+                emit(Result.Error(accountResponse.errorBody()?.string().toString()))
             }
+
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
@@ -76,15 +79,21 @@ class MainRepositoryImpl(
         try {
             val token = pref.getToken()
             val userId = pref.getCurrentUserId()
+
             Log.d(TAG, "signInWithToken: $token \n$userId")
             if(token == null || userId == -1){
                 emit(Result.Error("Token null or user id invalid"))
             }
             else{
                 Utils.access_token = token
-                val user = api.getUser(userId)
-                pref.saveCurrentUser(user)
-                emit(Result.Success(true))
+                val userResponse = api.getUser(userId)
+                if(userResponse.isSuccessful){
+                    pref.saveCurrentUser(userResponse.body()!!)
+                    emit(Result.Success(true))
+                }else{
+                    emit(Result.Error(userResponse.errorBody()?.string().toString()))
+                }
+
             }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
@@ -95,9 +104,14 @@ class MainRepositoryImpl(
         emit(Result.Loading)
         try {
             val userId = pref.getCurrentUserId()
-            val user = api.getUser(userId)
-            pref.saveCurrentUser(user)
-            emit(Result.Success(user))
+            val userResponse = api.getUser(userId)
+            if(userResponse.isSuccessful){
+                val userBody = userResponse.body()!!
+                pref.saveCurrentUser(userBody)
+                emit(Result.Success(userBody))
+            }else{
+                emit(Result.Error(userResponse.errorBody()?.string().toString()))
+            }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
@@ -121,8 +135,13 @@ class MainRepositoryImpl(
     override suspend fun getEngsByUserId(user_id: Int): Flow<Result<List<Eng>>> = flow{
         emit(Result.Loading)
         try {
-            val listEng = api.getEngsByUserId(user_id)
-            emit(Result.Success(listEng))
+            val listEngResponse = api.getEngsByUserId(user_id)
+            if(listEngResponse.isSuccessful){
+                emit(Result.Success(listEngResponse.body()!!))
+            }else{
+                emit(Result.Error(listEngResponse.errorBody()?.string().toString()))
+            }
+
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
             Log.e(TAG, "getEngsByUserId: ${e.message}")
@@ -132,8 +151,13 @@ class MainRepositoryImpl(
     override suspend fun getEngsByGroupId(group_id: Int): Flow<Result<List<Eng>>> = flow{
         emit(Result.Loading)
         try {
-            val listEng = api.getEngsByGroupId(group_id)
-            emit(Result.Success(listEng))
+            val listEngResponse = api.getEngsByGroupId(group_id)
+            if(listEngResponse.isSuccessful){
+                emit(Result.Success(listEngResponse.body()!!))
+            }else{
+                emit(Result.Error(listEngResponse.errorBody()?.string().toString()))
+            }
+
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }

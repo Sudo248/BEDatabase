@@ -30,14 +30,14 @@ class MainActivity : AppCompatActivity() {
         observer()
     }
 
-    fun navigate(id: Int){
-        navController.navigate(id)
+    fun navigate(id: Int, bundle: Bundle? = null){
+        navController.navigate(id, bundle)
     }
 
     fun setUpViewFullScreen(){
         binding.headerMain.visibility = View.GONE
         binding.bottomNavigation.visibility = View.GONE
-
+        showAddFabButton(false)
     }
 
     fun resetView(){

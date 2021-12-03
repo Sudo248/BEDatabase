@@ -28,7 +28,7 @@ module.exports.getUserById = async(req, res, next) => {
         if(userDB){
             res.status(200).json(userDB[0]);
         }else{
-            res.status(409).json({message:"User invalid"})
+            res.status(409).send("User invalid");
         }
     
     } catch (error) {

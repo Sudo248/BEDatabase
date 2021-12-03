@@ -22,19 +22,20 @@ module.exports.signUp = async(req, res, next) => {
         console.log(oldAccounts[0]);
 
         if(oldAccounts.length > 0){
-            console.log("This account already sign up")
-            res.status(409).json({message : "This account already sign up", account_id: null, token:null})
-        }else{
-            const hashPassword = bcrypt.hashSync(password, 10);
-            let account = new AccountDB(null, email, hashPassword);
-            // tao user cung voi account 
-            const userDB = new UserDB(null, "user_name", null);
-            await account.insert();
-            await userDB.insert();
-            console.log("create account: ",account.email,account.account_id);
-            
-            res.status(200).json({message : "Create success", account_id: -1});
+            console.log("This account already sign up");
+            return res.status(409).send("This account already sign up");
         }
+
+        const hashPassword = bcrypt.hashSync(password, 10);
+        let account = new AccountDB(null, email, hashPassword);
+        // tao user cung voi account 
+        const userDB = new UserDB(null, "user_name", null);
+        await account.insert();
+        await userDB.insert();
+        console.log("create account: ",account.email,account.account_id);
+        
+        res.status(200).json({message : "Create success", account_id: -1});
+        
     } catch (error) {
         next(error);
     }
@@ -53,7 +54,7 @@ module.exports.signIn = async(req, res, next) => {
         const account = accounts[0];
 
         if(!account){
-            return res.status(401).json({message:"Invalid account"});
+            return res.status(401).send("Invalid account");
         }
         
         // const hashPassword = bcrypt.hashSync('admin', 10);
@@ -61,26 +62,29 @@ module.exports.signIn = async(req, res, next) => {
 
         const isPasswordValid = bcrypt.compareSync(password, account.password);
         if(!isPasswordValid){
-            res.status(401).json({message:"Wrong password"});
-        }else{
-            const data = {
-                account_id: account.account_id,
-                email: account.email,
-            }
-    
-            const token = await authMethod.genToken(
-                data,
-                secretKey,
-                tokenLife,
-            );
-    
-            if(!token){
-                res.status(401).json({message:"Error when generate token"});
-            }else{
-                console.log("Login success",account.account_id,token)
-            res.status(200).json({message:"Login success",account_id:account.account_id,token});
-            }
+            console.log("Wrong password")
+            return res.status(401).send("Wrong password")
         }
+
+        const data = {
+            account_id: account.account_id,
+            email: account.email,
+        }
+
+        const token = await authMethod.genToken(
+            data,
+            secretKey,
+            tokenLife,
+        );
+
+        if(!token){
+            return res.status(401).send("Error when generate token");
+        }
+
+        console.log("Login success",account.account_id,token)
+        res.status(200).json({message:"Login success",account_id:account.account_id,token});
+        
+        
     } catch (error) {
         next(error);
     }
@@ -162,15 +166,33 @@ module.exports.putAccount = async(req, res, next) => {
 
 module.exports.changePassword = async(req, res, next) => {
     try {
+        
         const {
             account_id,
-            password
+            oldPassword,
+            newPassword
         } = req.body;
 
-        await AccountDB.changePassword(account_id, password)
+        console.log(req.body)
 
-        res.status(200).json({message: "Change password successs!"})
+        const [accounts, _] = await AccountDB.getAccountById(account_id);
+        const account = accounts[0]
 
+        console.log(account)
+
+        const isPasswordValid = bcrypt.compareSync(oldPassword, account.password);
+
+        if(!isPasswordValid){
+            res.status(401).send("Wrong password");
+        }
+        else{
+            const hashPassword = bcrypt.hashSync(newPassword, 10);
+            await AccountDB.changePassword(account_id, hashPassword);
+            console.log("Change password successs!");
+            res.status(200).json({message: "Change password successs!", account_id: account_id});
+        }
+
+        
     } catch (error) {
         next(error);
     }
