@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.models.Eng
 import com.nhom2.bedatabase.domain.models.Group
@@ -23,6 +24,9 @@ class MainViewModel @Inject constructor(
 
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> = _isLoading
+
+    private var _result: MutableLiveData<Result<Boolean>> = MutableLiveData()
+    val result: LiveData<Result<Boolean>> = _result
 
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> = _user
@@ -156,7 +160,24 @@ class MainViewModel @Inject constructor(
         return nameGroup
     }
 
-    fun changePassword(password: String){
-
+    fun changePassword(oldPassword: String, newPassword: String){
+        user.value?.let{
+            viewModelScope.launch(Dispatchers.IO){
+                repo.changePassword(it.user_id, Utils.hash(oldPassword), Utils.hash(newPassword)).collect {
+                    when(it){
+                        is Result.Loading ->{
+                            _result.postValue(it)
+                        }
+                        is Result.Success -> {
+                            _result.postValue(Result.Success(true))
+                        }
+                        is Result.Error ->{
+                            _result.postValue(it)
+                        }
+                    }
+                }
+                Log.e(TAG, "changePassword: done")
+            }
+        }
     }
 }

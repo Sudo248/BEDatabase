@@ -51,7 +51,6 @@ class GroupFragment : Fragment() {
                 onOpenGroup(it)
             }
         )
-        binding.rcvGroupList.adapter = adapter
     }
 
     private fun onEditGroupClick(pos: Int){
