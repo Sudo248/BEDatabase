@@ -21,6 +21,7 @@ import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.presentation.ui.main.LoadingScreen
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
+import com.nhom2.bedatabase.presentation.ui.main.fragments.dialogfragment.ChangePasswordDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,6 +32,7 @@ class ProfileFragment : Fragment() {
     lateinit var binding: FragmentProfileBinding
     private val viewModel by activityViewModels<MainViewModel>()
     private val loadingScreen by lazy {LoadingScreen()}
+    private val changePasswordDialogFragment by lazy {ChangePasswordDialogFragment()}
     private var pathImg: String? = null
     private var isUpdate = false
 
@@ -77,7 +79,8 @@ class ProfileFragment : Fragment() {
                 (activity as MainActivity).backToSignActivity()
             }
             cardChangePassword.setOnClickListener {
-                //TODO: Change password
+                changePasswordDialogFragment.show(childFragmentManager, null)
+
             }
         }
 

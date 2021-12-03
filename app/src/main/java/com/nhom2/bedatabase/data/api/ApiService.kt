@@ -1,5 +1,6 @@
 package com.nhom2.bedatabase.data.api
 
+import com.nhom2.bedatabase.data.models.AccountChangePassword
 import com.nhom2.bedatabase.data.models.AccountRequest
 import com.nhom2.bedatabase.data.models.AccountResponse
 import com.nhom2.bedatabase.data.util.Utils.access_token
@@ -15,7 +16,7 @@ interface ApiService {
     suspend fun signIn(@Body account: AccountRequest): AccountResponse
 
     @PUT("/changePassword")
-    suspend fun changePassword(@Body account: Account)
+    suspend fun changePassword(@Body account: AccountChangePassword): AccountChangePassword
 
     @GET("/signOut")
     suspend fun signOut()

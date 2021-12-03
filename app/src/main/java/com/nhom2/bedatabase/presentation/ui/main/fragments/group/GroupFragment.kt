@@ -50,6 +50,8 @@ class GroupFragment : Fragment() {
                 onOpenGroup(it)
             }
         )
+        (activity as MainActivity).showAddFabButton(true)
+        binding.rcvGroupList.adapter = adapter
     }
 
     private fun onEditGroupClick(pos: Int){

@@ -2,7 +2,9 @@ package com.nhom2.bedatabase.data.repository
 
 import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
+import com.nhom2.bedatabase.data.models.AccountChangePassword
 import com.nhom2.bedatabase.data.models.AccountRequest
+import com.nhom2.bedatabase.data.models.AccountResponse
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.data.util.toAccountRequest
@@ -20,45 +22,45 @@ class MainRepositoryImpl(
     private val TAG = "MainRepositoryImpl"
     override suspend fun signIn(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
+        lateinit var accountResponse: AccountResponse
         try {
             Log.d("TAG", "signIn: ${account.password}")
-            val accountResponse = api.signIn(account.toAccountRequest())
-            if (accountResponse.account_id == null){
-                emit(Result.Error("${accountResponse.message}"))
-            }else{
-                Utils.access_token = accountResponse.token
-                pref.saveToken(accountResponse.token)
-                val user = api.getUser(accountResponse.account_id)
-                pref.saveCurrentUser(user)
-                emit(Result.Success(true))
-            }
+            accountResponse = api.signIn(account.toAccountRequest())
+            Utils.access_token = accountResponse.token
+            pref.saveToken(accountResponse.token)
+            val user = api.getUser(accountResponse.account_id!!)
+            pref.saveCurrentUser(user)
+            emit(Result.Success(true))
+
         }catch (e: Exception){
-            emit(Result.Error("${e.message}"))
+            if (accountResponse.message != null) emit(Result.Error("${accountResponse.message}"))
+            else emit(Result.Error("${e.message}"))
             Log.e("TAG", "signIn: ${e.message}")
         }
     }
 
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
+        lateinit var accountResponse: AccountResponse
         try {
-            val accountResponse = api.signUp(account.toAccountRequest())
-            if (accountResponse.account_id == null) {
-                Log.e(TAG, "signUp: ${accountResponse.message}", )
-                emit(Result.Error("${accountResponse.message}"))
-            } else {
-                emit(Result.Success(true))
-            }
+            accountResponse = api.signUp(account.toAccountRequest())
+            emit(Result.Success(true))
         }catch (e: Exception){
-            emit(Result.Error("${e.message}"))
+            if (accountResponse.message != null) emit(Result.Error("${accountResponse.message}"))
+            else emit(Result.Error("${e.message}"))
         }
     }
 
-    override suspend fun changePassword(account_id: Int, newPassword: String): Flow<Result<Boolean>> = flow {
+    override suspend fun changePassword(account_id: Int, oldPassword: String, newPassword: String): Flow<Result<Boolean>> = flow {
         emit(Result.Loading)
+        lateinit var account: AccountChangePassword
         try {
-            api.changePassword(Account(account_id = account_id, password = newPassword))
+            Log.e(TAG, "changePassword: $account_id, $newPassword" )
+            account = api.changePassword(AccountChangePassword(account_id = account_id,oldPassword = oldPassword, newPassword = newPassword))
+            emit(Result.Success(true))
         }catch (e: Exception){
-            emit(Result.Error("${e.message}"))
+            if (account.message!= null) emit(Result.Error(account.message.toString()))
+            else emit(Result.Error("${e.message}"))
         }
     }
 

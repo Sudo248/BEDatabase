@@ -188,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:src="@drawable/ic_check"
+                        android:src="@drawable/ic_confirm"
                         android:layout_width="50dp"
                         android:layout_height="50dp"/>
                     <TextView
