@@ -184,8 +184,9 @@ class MainRepositoryImpl(
     override suspend fun putEng(eng: Eng): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            api.putEng(eng)
-            emit(Result.Success(true))
+            val engResponse = api.putEng(eng)
+            if (engResponse.isSuccessful) emit(Result.Success(true))
+            else emit(Result.Error(engResponse.errorBody()?.string().toString()))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }

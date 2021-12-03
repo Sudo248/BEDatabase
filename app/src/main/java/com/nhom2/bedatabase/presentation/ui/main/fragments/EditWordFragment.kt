@@ -17,7 +17,7 @@ class EditWordFragment : Fragment() {
 
     private lateinit var binding: FragmentEditWordBinding
     private val viewModel: MainViewModel by activityViewModels()
-    private var vocabulary: Eng? = null
+    private lateinit var spinnerAdapter: ArrayAdapter<CharSequence>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +28,6 @@ class EditWordFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //truyen bundle de xem la edit word, add new word hay add new word to group
         super.onViewCreated(view, savedInstanceState)
 
         setUpUi()
@@ -36,29 +35,40 @@ class EditWordFragment : Fragment() {
     }
 
     private fun observer() {
-
+        viewModel.currentVocabulary.observe(viewLifecycleOwner){
+            setVocabularyInfo(it)
+        }
     }
 
     private fun setUpUi() {
         (activity as MainActivity).setUpViewFullScreen()
-        val spinnerAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.Types, R.layout.spinner_type_item)
+        spinnerAdapter = ArrayAdapter.createFromResource(requireContext(), R.array.Types, R.layout.spinner_type_item)
         spinnerAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
         binding.spnType.adapter = spinnerAdapter
 
-        vocabulary = viewModel.currentVocabulary
-
-        vocabulary?.let {
-            setVocabularyInfo()
+        binding.btnChooseGroup.setOnClickListener {
+            (activity as MainActivity).navigate(R.id.action_editWordFragment_to_chooseGroupFragment)
         }
 
+        binding.btnConfirm.setOnClickListener {
+            viewModel.updateVocabulary(
+                type = binding.spnType.selectedItem.toString(),
+                content = binding.edtEnglishWord.text.toString(),
+                vn = binding.edtVnWord.text.toString(),
+                pronunciation = binding.edtPronunciation.text.toString(),
+                pathImg = null
+            )
+            (activity as MainActivity).onBackPressed()
+        }
     }
 
-    private fun setVocabularyInfo(){
+    private fun setVocabularyInfo(vocabulary: Eng){
         with(binding){
-            edtEnglishWord.setText(vocabulary!!.content)
-            edtVnWord.setText(vocabulary!!.vns[0].content)
-            edtPronunciation.setText(vocabulary!!.pronunciation)
-            tvGroupType.text = viewModel.getGroupNameById(vocabulary!!.group_id)
+            edtEnglishWord.setText(vocabulary.content)
+            edtVnWord.setText(vocabulary.vns[0].content)
+            edtPronunciation.setText(vocabulary.pronunciation)
+            tvGroupType.text = viewModel.getGroupNameById(vocabulary.group_id)
+            binding.spnType.setSelection(spinnerAdapter.getPosition(vocabulary.type))
         }
     }
 
@@ -66,6 +76,5 @@ class EditWordFragment : Fragment() {
         super.onDestroyView()
         (activity as MainActivity).resetView()
     }
-
 
 }

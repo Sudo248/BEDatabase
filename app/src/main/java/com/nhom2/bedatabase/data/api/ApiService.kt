@@ -41,7 +41,7 @@ interface ApiService {
     suspend fun getEngById(@Path("id") id: Int, @Header("access_token") token: String? = access_token): Response<Eng>
 
     @PUT("/eng")
-    suspend fun putEng(@Body eng: Eng, @Header("access_token") token: String? = access_token)
+    suspend fun putEng(@Body eng: Eng, @Header("access_token") token: String? = access_token): Response<Boolean>
 
     @POST("/eng")
     suspend fun postEng(@Body eng: Eng, @Header("access_token") token: String? = access_token)
