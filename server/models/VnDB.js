@@ -16,7 +16,7 @@ module.exports = class VnDB{
         INSERT INTO vns 
         VALUES(
             ${this.vn_id},
-            '${this.eng_id}',
+            ${this.eng_id},
             '${this.content}'
         );
         `;

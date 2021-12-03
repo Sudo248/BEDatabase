@@ -6,4 +6,5 @@ object Constants {
     const val ALGORITHM_HASH = "SHA-1"
     const val REQUEST_SELECT_AVATAR = 1
     const val CURRENT_GROUP_ID = "current_group_id"
+    const val ADD_ACTION = "add_action"
 }

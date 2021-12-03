@@ -38,7 +38,7 @@ module.exports.getEngByUserId = async(req, res, next) => {
             engs.push(new EngRes(engDB, vnDBs))
         }
 
-        console.log(engs)
+        console.log("getEngByUserId",engs)
 
         res.status(200).json(engs);
 
@@ -153,9 +153,11 @@ module.exports.putEng = async(req, res, next) => {
             pronunciation,
             content,
             type,
-            path_image
-
+            path_image,
+            vns
         } = req.body;
+
+        console.log(req.body)
 
         const eng = new EngDB(
             eng_id,
@@ -165,7 +167,15 @@ module.exports.putEng = async(req, res, next) => {
             type,
             path_image
         )
+        
+        for(vn of vns){
+            const newVn = new VnDB(vn.vn_id, vn.eng_id, vn.content)
+            newVn.update()
+        }
         await eng.update()
+
+        console.log(`update eng ${eng.eng_id} success`)
+        console.log(eng)
         res.status(200).json({id: eng.eng_id})
         
     } catch (error) {

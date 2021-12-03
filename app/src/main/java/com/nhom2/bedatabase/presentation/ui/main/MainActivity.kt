@@ -22,27 +22,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel: MainViewModel by viewModels()
+    lateinit var addOnClick: () -> Unit
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
+        setUpUi()
         observer()
     }
 
-    fun navigate(id: Int, bundle: Bundle? = null){
-        navController.navigate(id, bundle)
-    }
-
-    fun setUpViewFullScreen(){
-        binding.headerMain.visibility = View.GONE
-        binding.bottomNavigation.visibility = View.GONE
-        showAddFabButton(false)
-    }
-
-    fun resetView(){
-        binding.bottomNavigation.visibility = View.VISIBLE
-        binding.headerMain.visibility = View.VISIBLE
+    private fun setUpUi(){
+        navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
+        binding.fabAddWord.setOnClickListener {
+            addOnClick
+        }
     }
 
     private fun observer(){
@@ -61,6 +54,23 @@ class MainActivity : AppCompatActivity() {
             binding.tvNumGroupHeader.text = "${it.size}"
         }
     }
+
+    fun navigate(id: Int, bundle: Bundle? = null){
+        navController.navigate(id, bundle)
+    }
+
+    fun setUpViewFullScreen(){
+        binding.headerMain.visibility = View.GONE
+        binding.bottomNavigation.visibility = View.GONE
+        showAddFabButton(false)
+    }
+
+    fun resetView(){
+        binding.bottomNavigation.visibility = View.VISIBLE
+        binding.headerMain.visibility = View.VISIBLE
+    }
+
+
     fun backToSignActivity(){
         startActivity(Intent(this, SignActivity::class.java))
         finish()
