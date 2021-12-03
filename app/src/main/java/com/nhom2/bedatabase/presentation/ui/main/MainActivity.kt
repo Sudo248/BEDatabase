@@ -32,11 +32,13 @@ class MainActivity : AppCompatActivity() {
         observer()
     }
 
-    private fun setUpUi(){
-        navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
+    private fun setUpUi() {
+        navController =
+            (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
         binding.fabAddWord.setOnClickListener {
             addOnClick
         }
+    }
     fun navigate(id: Int, bundle: Bundle? = null, popBackStack: Boolean = false){
         navController.navigate(id, bundle)
         if (popBackStack) supportFragmentManager.popBackStack()
@@ -74,18 +76,6 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(id, bundle)
     }
 
-    fun setUpViewFullScreen(){
-        binding.headerMain.visibility = View.GONE
-        binding.bottomNavigation.visibility = View.GONE
-        showAddFabButton(false)
-    }
-
-    fun resetView(){
-        binding.bottomNavigation.visibility = View.VISIBLE
-        binding.headerMain.visibility = View.VISIBLE
-    }
-
-
     fun backToSignActivity(){
         startActivity(Intent(this, SignActivity::class.java))
         finish()
@@ -94,7 +84,4 @@ class MainActivity : AppCompatActivity() {
     fun showAddFabButton(b: Boolean){
         binding.fabAddWord.visibility = if(b) View.VISIBLE else View.GONE
     }
-
-
-
 }
