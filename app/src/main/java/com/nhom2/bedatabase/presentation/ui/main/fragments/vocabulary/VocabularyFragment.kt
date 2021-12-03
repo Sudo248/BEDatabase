@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentVocabularyBinding
+import com.nhom2.bedatabase.domain.common.Constants.CURRENT_GROUP_ID
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
 import com.nhom2.bedatabase.presentation.ui.main.adapter.VocabularyAdapter
@@ -21,17 +22,21 @@ class VocabularyFragment : Fragment() {
 
     private lateinit var adapter: VocabularyAdapter
 
+    private var current_group_id: Int? = null
+
     private val TAG = "VocabularyFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        arguments?.let{
+            current_group_id = it.getInt(CURRENT_GROUP_ID)
+        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentVocabularyBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -44,8 +49,13 @@ class VocabularyFragment : Fragment() {
     }
 
     private fun observer() {
-        viewModel.vocabularies.observe(viewLifecycleOwner){
-            adapter.submitList(it.toList())
+        viewModel.vocabularies.observe(viewLifecycleOwner){ list ->
+            Log.d(TAG, "current_group_id: $current_group_id")
+            if(current_group_id != null){
+                val vocabularyOfGroup = list.filter { it.group_id == current_group_id }
+                adapter.submitList(vocabularyOfGroup)
+            }
+            else adapter.submitList(list.toList())
         }
     }
 

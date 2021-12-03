@@ -2,9 +2,7 @@ package com.nhom2.bedatabase.data.repository
 
 import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
-import com.nhom2.bedatabase.data.models.AccountChangePassword
 import com.nhom2.bedatabase.data.models.AccountRequest
-import com.nhom2.bedatabase.data.models.AccountResponse
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.data.util.toAccountRequest
@@ -22,45 +20,50 @@ class MainRepositoryImpl(
     private val TAG = "MainRepositoryImpl"
     override suspend fun signIn(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
-        lateinit var accountResponse: AccountResponse
         try {
             Log.d("TAG", "signIn: ${account.password}")
-            accountResponse = api.signIn(account.toAccountRequest())
-            Utils.access_token = accountResponse.token
-            pref.saveToken(accountResponse.token)
-            val user = api.getUser(accountResponse.account_id!!)
-            pref.saveCurrentUser(user)
-            emit(Result.Success(true))
-
+            val accountResponse = api.signIn(account.toAccountRequest())
+            if(accountResponse.isSuccessful){
+                val accountBody = accountResponse.body()!!
+                Utils.access_token = accountBody.token
+                pref.saveToken(accountBody.token)
+                val userResponse = api.getUser(accountBody.account_id)
+                if(userResponse.isSuccessful){
+                    val user = userResponse.body()!!
+                    pref.saveCurrentUser(user)
+                    emit(Result.Success(true))
+                }else{
+                    emit(Result.Error(userResponse.errorBody()?.string().toString()))
+                }
+            }else{
+                emit(Result.Error(accountResponse.errorBody()?.string().toString()))
+            }
         }catch (e: Exception){
-            if (accountResponse.message != null) emit(Result.Error("${accountResponse.message}"))
-            else emit(Result.Error("${e.message}"))
-            Log.e("TAG", "signIn: ${e.message}")
+            emit(Result.Error("${e.message}"))
         }
     }
 
     override suspend fun signUp(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
-        lateinit var accountResponse: AccountResponse
         try {
-            accountResponse = api.signUp(account.toAccountRequest())
-            emit(Result.Success(true))
+            val accountResponse = api.signUp(account.toAccountRequest())
+            if(accountResponse.isSuccessful){
+                emit(Result.Success(true))
+            }else{
+                emit(Result.Error(accountResponse.errorBody()?.string().toString()))
+            }
+
         }catch (e: Exception){
-            if (accountResponse.message != null) emit(Result.Error("${accountResponse.message}"))
-            else emit(Result.Error("${e.message}"))
+            emit(Result.Error("${e.message}"))
         }
     }
 
-    override suspend fun changePassword(account_id: Int, oldPassword: String, newPassword: String): Flow<Result<Boolean>> = flow {
+    override suspend fun changePassword(account_id: Int, newPassword: String): Flow<Result<Boolean>> = flow {
         emit(Result.Loading)
-        lateinit var account: AccountChangePassword
         try {
-            Log.e(TAG, "changePassword: $account_id, $newPassword" )
-            account = api.changePassword(AccountChangePassword(account_id = account_id,oldPassword = oldPassword, newPassword = newPassword))
-            emit(Result.Success(true))
+            api.changePassword(Account(account_id = account_id, password = newPassword))
         }catch (e: Exception){
-            if (account.message!= null) emit(Result.Error(account.message.toString()))
-            else emit(Result.Error("${e.message}"))
+            emit(Result.Error("${e.message}"))
         }
     }
 
@@ -78,15 +81,21 @@ class MainRepositoryImpl(
         try {
             val token = pref.getToken()
             val userId = pref.getCurrentUserId()
+
             Log.d(TAG, "signInWithToken: $token \n$userId")
             if(token == null || userId == -1){
                 emit(Result.Error("Token null or user id invalid"))
             }
             else{
                 Utils.access_token = token
-                val user = api.getUser(userId)
-                pref.saveCurrentUser(user)
-                emit(Result.Success(true))
+                val userResponse = api.getUser(userId)
+                if(userResponse.isSuccessful){
+                    pref.saveCurrentUser(userResponse.body()!!)
+                    emit(Result.Success(true))
+                }else{
+                    emit(Result.Error(userResponse.errorBody()?.string().toString()))
+                }
+
             }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
@@ -97,9 +106,14 @@ class MainRepositoryImpl(
         emit(Result.Loading)
         try {
             val userId = pref.getCurrentUserId()
-            val user = api.getUser(userId)
-            pref.saveCurrentUser(user)
-            emit(Result.Success(user))
+            val userResponse = api.getUser(userId)
+            if(userResponse.isSuccessful){
+                val userBody = userResponse.body()!!
+                pref.saveCurrentUser(userBody)
+                emit(Result.Success(userBody))
+            }else{
+                emit(Result.Error(userResponse.errorBody()?.string().toString()))
+            }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
@@ -123,8 +137,13 @@ class MainRepositoryImpl(
     override suspend fun getEngsByUserId(user_id: Int): Flow<Result<List<Eng>>> = flow{
         emit(Result.Loading)
         try {
-            val listEng = api.getEngsByUserId(user_id)
-            emit(Result.Success(listEng))
+            val listEngResponse = api.getEngsByUserId(user_id)
+            if(listEngResponse.isSuccessful){
+                emit(Result.Success(listEngResponse.body()!!))
+            }else{
+                emit(Result.Error(listEngResponse.errorBody()?.string().toString()))
+            }
+
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
             Log.e(TAG, "getEngsByUserId: ${e.message}")
@@ -134,8 +153,13 @@ class MainRepositoryImpl(
     override suspend fun getEngsByGroupId(group_id: Int): Flow<Result<List<Eng>>> = flow{
         emit(Result.Loading)
         try {
-            val listEng = api.getEngsByGroupId(group_id)
-            emit(Result.Success(listEng))
+            val listEngResponse = api.getEngsByGroupId(group_id)
+            if(listEngResponse.isSuccessful){
+                emit(Result.Success(listEngResponse.body()!!))
+            }else{
+                emit(Result.Error(listEngResponse.errorBody()?.string().toString()))
+            }
+
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }

@@ -11,7 +11,7 @@ import com.nhom2.bedatabase.domain.models.Group
 class GroupAdapter(
     private val onEditGroupClick: (pos: Int) -> Unit,
     private val onDeleteGroupClick: (pos: Int) -> Unit,
-    private val onOpenGroup: (pos: Int) -> Unit
+    private val onOpenGroup: (group_id: Int) -> Unit
 ) : ListAdapter<Group, GroupAdapter.ViewHolder>(
     object: DiffUtil.ItemCallback<Group>(){
         override fun areItemsTheSame(oldItem: Group, newItem: Group) = oldItem.group_id == newItem.group_id
@@ -27,6 +27,9 @@ class GroupAdapter(
                 }
                 btnDeleteGroup.setOnClickListener {
                     onDeleteGroupClick(position)
+                }
+                root.setOnClickListener {
+                    onOpenGroup(group.group_id)
                 }
             }
         }
