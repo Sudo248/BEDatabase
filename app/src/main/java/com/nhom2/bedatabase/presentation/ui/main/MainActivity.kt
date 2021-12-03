@@ -38,6 +38,11 @@ class MainActivity : AppCompatActivity() {
         binding.fabAddWord.setOnClickListener {
             addOnClick
         }
+//        binding.bottomNavigation.setOnItemSelectedListener {
+//            when(it.itemId){
+//                R.id.home
+//            }
+//        }
     }
 
     fun setUpViewFullScreen(){
