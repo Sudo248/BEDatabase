@@ -75,10 +75,19 @@
         android:id="@+id/editWordFragment"
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.EditWordFragment"
         android:label="fragment_edit_word"
-        tools:layout="@layout/fragment_edit_word" />
+        tools:layout="@layout/fragment_edit_word" >
+        <action
+            android:id="@+id/action_editWordFragment_to_chooseGroupFragment"
+            app:destination="@id/chooseGroupFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addNewWordFragment"
         android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.AddNewWordFragment"
         android:label="fragment_add_new_word"
         tools:layout="@layout/fragment_add_new_word" />
+    <fragment
+        android:id="@+id/chooseGroupFragment"
+        android:name="com.nhom2.bedatabase.presentation.ui.main.fragments.ChooseGroupFragment"
+        android:label="fragment_choose_group"
+        tools:layout="@layout/fragment_choose_group" />
 </navigation>

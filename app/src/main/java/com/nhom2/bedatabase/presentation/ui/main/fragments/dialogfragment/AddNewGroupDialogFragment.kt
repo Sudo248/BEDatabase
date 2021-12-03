@@ -43,6 +43,7 @@ class AddNewGroupDialogFragment : DialogFragment() {
                     name = edtGroupName.text.toString(),
                     description = edtGroupDescription.text.toString()
                 ))
+                if (isVisible) dismiss()
             }
         }
     }

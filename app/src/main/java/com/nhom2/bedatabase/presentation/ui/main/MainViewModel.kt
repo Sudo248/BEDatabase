@@ -99,7 +99,7 @@ class MainViewModel @Inject constructor(
                             _vocabularies.postValue(list)
                         }
                         process += 1
-                        if(process == 2)
+                        if(process >= 2)
                             _isLoading.postValue(false)
                     }
                     is Result.Error -> {
@@ -119,7 +119,7 @@ class MainViewModel @Inject constructor(
                             _groups.postValue(list)
                         }
                         process += 1
-                        if(process == 2)
+                        if(process >= 2)
                             _isLoading.postValue(false)
                     }
                     is Result.Error -> {

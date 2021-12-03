@@ -49,6 +49,7 @@ class ProfileFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun catchAction() {
+        (activity as MainActivity).setUpViewFullScreen()
         with(binding){
             btnEditUserAvatar.setOnClickListener {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)

@@ -11,7 +11,6 @@ import com.nhom2.bedatabase.domain.models.Group
 
 class GroupAdapter(
     private val onEditGroupClick: (pos: Int) -> Unit,
-    private val onDeleteGroupClick: (pos: Int) -> Unit,
     private val onOpenGroup: (group_id: Int) -> Unit,
     private val isEnableEditAndDelete: Boolean = true
 ) : ListAdapter<Group, GroupAdapter.ViewHolder>(
@@ -26,9 +25,6 @@ class GroupAdapter(
                 tvNameGroup.text = group.name
                 btnEditGroup.setOnClickListener {
                     onEditGroupClick(position)
-                }
-                btnDeleteGroup.setOnClickListener {
-                    onDeleteGroupClick(position)
                 }
                 if (!isEnableEditAndDelete){
                     btnDeleteGroup.visibility = View.GONE

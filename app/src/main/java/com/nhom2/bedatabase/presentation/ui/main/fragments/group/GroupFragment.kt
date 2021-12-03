@@ -42,15 +42,12 @@ class GroupFragment : Fragment() {
 
     private fun setUpUi() {
         (activity as MainActivity).showAddFabButton(true)
-        (activity as MainActivity).addOnClick = {
+        (activity as MainActivity).setAddOnClickListener {
             addNewGroupDialogFragment.show(childFragmentManager, null)
         }
         adapter = GroupAdapter(
             onEditGroupClick = {
                 onEditGroupClick(it)
-            },
-            onDeleteGroupClick = {
-                onDeleteGroupClick(it)
             },
             onOpenGroup = {
                 onOpenGroup(it)
