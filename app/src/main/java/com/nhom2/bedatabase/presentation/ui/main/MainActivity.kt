@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel: MainViewModel by viewModels()
-    lateinit var addOnClick: () -> Unit
+    private val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -32,28 +32,8 @@ class MainActivity : AppCompatActivity() {
         observer()
     }
 
-    private fun setUpUi() {
-        navController =
-            (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
-        binding.fabAddWord.setOnClickListener {
-            addOnClick
-        }
-//        binding.bottomNavigation.setOnItemSelectedListener {
-//            when(it.itemId){
-//                R.id.home
-//            }
-//        }
-    }
-
-    fun setUpViewFullScreen(){
-        binding.headerMain.visibility = View.GONE
-        binding.bottomNavigation.visibility = View.GONE
-        showAddFabButton(false)
-    }
-
-    fun resetView(){
-        binding.bottomNavigation.visibility = View.VISIBLE
-        binding.headerMain.visibility = View.VISIBLE
+    private fun setUpUi(){
+        navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
     }
 
     private fun observer(){
@@ -77,6 +57,18 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(id, bundle)
     }
 
+    fun setUpViewFullScreen(){
+        binding.headerMain.visibility = View.GONE
+        binding.bottomNavigation.visibility = View.GONE
+        showAddFabButton(false)
+    }
+
+    fun resetView(){
+        binding.bottomNavigation.visibility = View.VISIBLE
+        binding.headerMain.visibility = View.VISIBLE
+    }
+
+
     fun backToSignActivity(){
         startActivity(Intent(this, SignActivity::class.java))
         finish()
@@ -85,4 +77,12 @@ class MainActivity : AppCompatActivity() {
     fun showAddFabButton(b: Boolean){
         binding.fabAddWord.visibility = if(b) View.VISIBLE else View.GONE
     }
+
+    fun setAddOnClickListener(onClick: ()-> Unit){
+        binding.fabAddWord.setOnClickListener {
+            Log.d(TAG, "setUpUi: addOnClick")
+            onClick()
+        }
+    }
+
 }
