@@ -2,6 +2,7 @@ package com.nhom2.bedatabase.data.repository
 
 import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
+import com.nhom2.bedatabase.data.models.AccountChangePassword
 import com.nhom2.bedatabase.data.models.AccountRequest
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
@@ -58,10 +59,15 @@ class MainRepositoryImpl(
         }
     }
 
-    override suspend fun changePassword(account_id: Int, newPassword: String): Flow<Result<Boolean>> = flow {
+    override suspend fun changePassword(account_id: Int, oldPassword: String, newPassword: String): Flow<Result<Boolean>> = flow {
         emit(Result.Loading)
         try {
-
+            val accountResponse = api.changePassword(AccountChangePassword(account_id, oldPassword, newPassword))
+            if(accountResponse.isSuccessful){
+                emit(Result.Success(true))
+            }else{
+                emit(Result.Error(accountResponse.errorBody()?.string().toString()))
+            }
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }
