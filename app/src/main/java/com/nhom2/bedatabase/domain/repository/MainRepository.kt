@@ -10,6 +10,8 @@ interface MainRepository {
 
     suspend fun signUp(account: Account): Flow<Result<Boolean>>
 
+    suspend fun changePassword(account_id: Int, newPassword: String): Flow<Result<Boolean>>
+
     suspend fun signOut()
 
     suspend fun signInWithToken(): Flow<Result<Boolean>>

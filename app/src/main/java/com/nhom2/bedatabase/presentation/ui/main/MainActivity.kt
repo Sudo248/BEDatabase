@@ -66,4 +66,10 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
+    fun showAddFabButton(b: Boolean){
+        binding.fabAddWord.visibility = if(b) View.VISIBLE else View.GONE
+    }
+
+
+
 }

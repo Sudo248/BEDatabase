@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentGroupBinding
+import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 
 class GroupFragment : Fragment() {
     lateinit var binding: FragmentGroupBinding
@@ -20,7 +21,16 @@ class GroupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpUi()
+        observer()
+    }
 
+    private fun observer() {
+        
+    }
+
+    private fun setUpUi(){
+        (activity as MainActivity).showAddFabButton(true)
     }
 
 }

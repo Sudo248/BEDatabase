@@ -21,7 +21,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpUi(){
+        (activity as MainActivity).showAddFabButton(false)
         nav = Navigation.findNavController(binding.root)
         with(binding){
             linearLayout3.setOnClickListener{

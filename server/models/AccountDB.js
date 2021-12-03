@@ -34,6 +34,15 @@ module.exports = class AccountDB{
         return db.execute(sql);
     }
 
+    static changePassword(account_id, password){
+        const sql = `
+        UPDATE accounts
+        SET password = '${password}'
+        WHERE  account_id = ${account_id};
+        `;
+        return db.execute(sql);
+    }
+
     static deleteAccountById(id){
         const sql = `
         DELETE FROM accounts

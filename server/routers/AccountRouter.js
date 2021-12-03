@@ -6,6 +6,7 @@ const validatorAccount = require('../util/Validator').validateAccount
 
 const accountController = require('../controller/AccountController');
 
+
 router
     .route('/signIn')
     .post(accountController.signIn);
@@ -13,6 +14,11 @@ router
 router
     .route('/signUp')
     .post(accountController.signUp);
+
+
+router
+    .route('/changePassword')
+    .put(accountController.changePassword);
 
 router
     .route('/signOut')
