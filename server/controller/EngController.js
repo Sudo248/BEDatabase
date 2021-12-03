@@ -133,16 +133,6 @@ module.exports.postEng = async(req, res, next) => {
 
         console.log("New eng after insert ", newEng[0].eng_id)
 
-        // for(const vn of vns){
-
-        //     const newVn = new VnDB(
-        //         null,
-        //         newEng[0].eng_id,
-        //         vn
-        //     )
-        //     await newVn.insert();
-        // }
-
         const junctionUserEng = new JunctionUserEng(user_id, eng_id);
 
         await junctionUserEng.insert();

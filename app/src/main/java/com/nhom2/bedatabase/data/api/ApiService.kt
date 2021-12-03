@@ -3,10 +3,7 @@ package com.nhom2.bedatabase.data.api
 import com.nhom2.bedatabase.data.models.AccountRequest
 import com.nhom2.bedatabase.data.models.AccountResponse
 import com.nhom2.bedatabase.data.util.Utils.access_token
-import com.nhom2.bedatabase.domain.models.Eng
-import com.nhom2.bedatabase.domain.models.Group
-import com.nhom2.bedatabase.domain.models.User
-import com.nhom2.bedatabase.domain.models.Vn
+import com.nhom2.bedatabase.domain.models.*
 import retrofit2.http.*
 
 interface ApiService {
@@ -16,6 +13,9 @@ interface ApiService {
 
     @POST("/signIn")
     suspend fun signIn(@Body account: AccountRequest): AccountResponse
+
+    @PUT("/changePassword")
+    suspend fun changePassword(@Body account: Account)
 
     @GET("/signOut")
     suspend fun signOut()

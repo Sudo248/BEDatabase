@@ -10,20 +10,20 @@ router
     .put(engController.putEng)
 
 router
-    .route('/:id')
-    .get(engController.getEngById)
-    .delete(engController.deleteEngById)
-
-router
-    .route('/:user_id')
+    .route('/user')
     .get(engController.getEngByUserId)
 
 router
-    .route('/:group_id')
+    .route('/group')
     .get(engController.getEngByGroupId)
 
 router
-    .route('/:type')
+    .route('/type')
     .get(engController.getEngByType)
+
+router
+    .route('/:id')
+    .get(engController.getEngById)
+    .delete(engController.deleteEngById)
 
 module.exports = router

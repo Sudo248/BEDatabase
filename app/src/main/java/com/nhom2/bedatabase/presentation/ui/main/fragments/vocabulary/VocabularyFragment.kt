@@ -50,6 +50,7 @@ class VocabularyFragment : Fragment() {
     }
 
     private fun setUpUi() {
+        (activity as MainActivity).showAddFabButton(true)
         adapter = VocabularyAdapter(
             onEditEngClick = {
                 onEditEngClick(it)

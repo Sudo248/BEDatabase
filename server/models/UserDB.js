@@ -60,7 +60,7 @@ module.exports = class UserDB{
     static getUserByUserName(user_name){
         const sql = `
         SELLECT * FROM users
-        WHERE user_name = ${user_name} LIMIT 1;
+        WHERE user_name = '${user_name}' LIMIT 1;
         `;
         return db.execute(sql);
     }

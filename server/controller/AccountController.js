@@ -22,19 +22,19 @@ module.exports.signUp = async(req, res, next) => {
         console.log(oldAccounts[0]);
 
         if(oldAccounts.length > 0){
-            return res.status(409).json({message : "This account already sign up"})
+            console.log("This account already sign up")
+            res.status(409).json({message : "This account already sign up", account_id: null, token:null})
+        }else{
+            const hashPassword = bcrypt.hashSync(password, 10);
+            let account = new AccountDB(null, email, hashPassword);
+            // tao user cung voi account 
+            const userDB = new UserDB(null, "user_name", null);
+            await account.insert();
+            await userDB.insert();
+            console.log("create account: ",account.email,account.account_id);
+            
+            res.status(200).json({message : "Create success", account_id: -1});
         }
-
-        const hashPassword = bcrypt.hashSync(password, 10);
-        let account = new AccountDB(null, email, hashPassword);
-        // tao user cung voi account 
-        const userDB = new UserDB(null, "user_name", null);
-        await account.insert();
-        await userDB.insert();
-        console.log("create account: ",account.email,account.account_id);
-        
-        return res.status(200).json({account_id: account.account_id});
-        
     } catch (error) {
         next(error);
     }
@@ -61,26 +61,26 @@ module.exports.signIn = async(req, res, next) => {
 
         const isPasswordValid = bcrypt.compareSync(password, account.password);
         if(!isPasswordValid){
-            return res.status(401).json({message:"Wrong password"});
-        }
-        
-        const data = {
-            account_id: account.account_id,
-            email: account.email,
-        }
-
-        const token = await authMethod.genToken(
-            data,
-            secretKey,
-            tokenLife,
-        );
-
-        if(!token){
-            return res.status(401).json({message:"Error when generate token"});
-        }
-        console.log("Login success",account.account_id,token)
-        res.status(200).json({message:"Login success",account_id:account.account_id,token});
+            res.status(401).json({message:"Wrong password"});
+        }else{
+            const data = {
+                account_id: account.account_id,
+                email: account.email,
+            }
     
+            const token = await authMethod.genToken(
+                data,
+                secretKey,
+                tokenLife,
+            );
+    
+            if(!token){
+                res.status(401).json({message:"Error when generate token"});
+            }else{
+                console.log("Login success",account.account_id,token)
+            res.status(200).json({message:"Login success",account_id:account.account_id,token});
+            }
+        }
     } catch (error) {
         next(error);
     }
@@ -154,6 +154,22 @@ module.exports.putAccount = async(req, res, next) => {
         await account.update();
 
         res.status(200).json({message: "Update account successs!"})
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+module.exports.changePassword = async(req, res, next) => {
+    try {
+        const {
+            account_id,
+            password
+        } = req.body;
+
+        await AccountDB.changePassword(account_id, password)
+
+        res.status(200).json({message: "Change password successs!"})
 
     } catch (error) {
         next(error);

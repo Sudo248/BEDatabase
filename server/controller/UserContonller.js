@@ -66,8 +66,8 @@ module.exports.putUser = async(req, res, next) => {
         const user = new UserDB(user_id, user_name, path_image);
 
         await user.update();
-
-        res.status(201).json({message: "Update user successs!",user})
+        console.log("Update user successs!")
+        res.status(201).json({message: "Update user successs!"})
 
     } catch (error) {
         next(error);
