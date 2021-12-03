@@ -27,7 +27,7 @@ module.exports = class VnDB{
         const sql = `
         UPDATE vns
         SET 
-            eng_id = '${this.eng_id}',
+            eng_id = ${this.eng_id},
             content = '${this.content}'
         WHERE vn_id = ${this.vn_id};
         `;

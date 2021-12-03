@@ -26,13 +26,13 @@ interface ApiService {
     @PUT("/user")
     suspend fun putUser(@Body user: User, @Header("access_token") token: String? = access_token)
 
-    @GET("/eng")
+    @GET("/eng/user")
     suspend fun getEngsByUserId(@Query("user_id") user_id: Int, @Header("access_token") token: String? = access_token): List<Eng>
 
-    @GET("/eng")
+    @GET("/eng/group")
     suspend fun getEngsByGroupId(@Query("group_id") group_id: Int, @Header("access_token") token: String? = access_token): List<Eng>
 
-    @GET("/eng")
+    @GET("/eng/type")
     suspend fun getEngsByType(@Query("type") type: String, @Header("access_token") token: String? = access_token): List<Eng>
 
     @GET("/eng/{id}")

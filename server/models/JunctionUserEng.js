@@ -13,8 +13,8 @@ module.exports = class JunctionUserEng{
         const sql = `
         INSERT INTO junction_user_eng 
         VALUES(
-            '${this.user_id}',
-            '${this.eng_id}'
+            ${this.user_id},
+            ${this.eng_id}
         );
         `;
         return db.execute(sql);
@@ -24,7 +24,7 @@ module.exports = class JunctionUserEng{
         const sql = `
         UPDATE junction_user_eng
         SET 
-            eng_id = '${this.eng_id}'
+            eng_id = ${this.eng_id}
         WHERE  user_id = ${this.user_id};
         `;
         return db.execute(sql);
@@ -35,7 +35,7 @@ module.exports = class JunctionUserEng{
         UPDATE junction_user_eng
         SET 
             user_id = ${this.user_id}
-        WHERE eng_id = '${this.eng_id}';
+        WHERE eng_id = ${this.eng_id};
         `;
         return db.execute(sql);
     }

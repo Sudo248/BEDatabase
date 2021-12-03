@@ -22,19 +22,19 @@ module.exports.signUp = async(req, res, next) => {
         console.log(oldAccounts[0]);
 
         if(oldAccounts.length > 0){
-            return res.status(409).json({message : "This account already sign up"})
+            console.log("This account already sign up")
+            res.status(409).json({message : "This account already sign up", account_id: null, token:null})
+        }else{
+            const hashPassword = bcrypt.hashSync(password, 10);
+            let account = new AccountDB(null, email, hashPassword);
+            // tao user cung voi account 
+            const userDB = new UserDB(null, "user_name", null);
+            await account.insert();
+            await userDB.insert();
+            console.log("create account: ",account.email,account.account_id);
+            
+            res.status(200).json({message : "Create success", account_id: -1});
         }
-
-        const hashPassword = bcrypt.hashSync(password, 10);
-        let account = new AccountDB(null, email, hashPassword);
-        // tao user cung voi account 
-        const userDB = new UserDB(null, "user_name", null);
-        await account.insert();
-        await userDB.insert();
-        console.log("create account: ",account.email,account.account_id);
-        
-        return res.status(200).json({account_id: account.account_id});
-        
     } catch (error) {
         next(error);
     }

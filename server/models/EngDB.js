@@ -80,7 +80,7 @@ module.exports = class EngDB{
     static getEngByType(type){
         const sql = `
         SELLECT * FROM engs
-        WHERE type = ${type};
+        WHERE type = '${type}';
         `;
         return db.execute(sql);
     }
