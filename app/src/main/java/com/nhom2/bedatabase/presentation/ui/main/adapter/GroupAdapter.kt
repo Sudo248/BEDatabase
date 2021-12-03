@@ -35,7 +35,7 @@ class GroupAdapter(
                     btnEditGroup.visibility = View.GONE
                 }
                 root.setOnClickListener {
-                    onOpenGroup(group.group_id)
+                    group.group_id?.let{onOpenGroup(it)}
                 }
             }
         }

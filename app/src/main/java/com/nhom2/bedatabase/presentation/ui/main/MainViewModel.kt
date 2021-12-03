@@ -214,4 +214,21 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+    fun addGroup(group: Group){
+        viewModelScope.launch(Dispatchers.IO){
+            repo.postGroup(group).collect {
+                if (it is Result.Loading){
+                    _isLoading.postValue(true)
+                } else {
+                    _groups.value?.let{ list ->
+                        val listGroup = list.toMutableList()
+                        listGroup.add(group)
+                        _groups.postValue(listGroup)
+                        _user.value?.user_id?.let { it1 -> getDataForUser(it1) }
+                    }
+                    _isLoading.postValue(false)
+                }
+            }
+        }
+    }
 }

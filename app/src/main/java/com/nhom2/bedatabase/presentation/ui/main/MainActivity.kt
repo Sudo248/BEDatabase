@@ -39,10 +39,6 @@ class MainActivity : AppCompatActivity() {
             addOnClick
         }
     }
-    fun navigate(id: Int, bundle: Bundle? = null, popBackStack: Boolean = false){
-        navController.navigate(id, bundle)
-        if (popBackStack) supportFragmentManager.popBackStack()
-    }
 
     fun setUpViewFullScreen(){
         binding.headerMain.visibility = View.GONE

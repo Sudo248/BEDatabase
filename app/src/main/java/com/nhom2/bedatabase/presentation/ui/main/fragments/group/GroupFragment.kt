@@ -1,5 +1,6 @@
 package com.nhom2.bedatabase.presentation.ui.main.fragments.group
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ class GroupFragment : Fragment() {
     lateinit var binding: FragmentGroupBinding
     val viewModel by activityViewModels<MainViewModel>()
     lateinit var adapter: GroupAdapter
+    val addNewGroupDialogFragment by lazy { AddNewGroupDialogFragment() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +42,10 @@ class GroupFragment : Fragment() {
     }
 
     private fun setUpUi() {
+        (activity as MainActivity).showAddFabButton(true)
+        (activity as MainActivity).addOnClick = {
+            addNewGroupDialogFragment.show(childFragmentManager, null)
+        }
         adapter = GroupAdapter(
             onEditGroupClick = {
                 onEditGroupClick(it)
