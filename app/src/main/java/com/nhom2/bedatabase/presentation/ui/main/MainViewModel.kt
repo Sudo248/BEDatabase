@@ -10,11 +10,13 @@ import com.nhom2.bedatabase.domain.common.Result
 import com.nhom2.bedatabase.domain.models.Eng
 import com.nhom2.bedatabase.domain.models.Group
 import com.nhom2.bedatabase.domain.models.User
+import com.nhom2.bedatabase.domain.models.Vn
 import com.nhom2.bedatabase.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,13 +39,14 @@ class MainViewModel @Inject constructor(
     private val _groups: MutableLiveData<List<Group>> = MutableLiveData()
     val groups: LiveData<List<Group>> = _groups
 
-//    private val _currentVocabulary = MutableLiveData<Eng>()
-//    val currentVocabulary: LiveData<Eng> = _currentVocabulary
+    private val _currentVocabulary = MutableLiveData<Eng>()
+    val currentVocabulary: LiveData<Eng> = _currentVocabulary
+
+    private var _currentPosEng = 0
 
 //    private val _currentGroup = MutableLiveData<Group>()
 //    val currentGroup: LiveData<Group> = _currentGroup
 
-    var currentVocabulary: Eng? = null
     var currentGroup: Group? = null
 
     private var process = 0
@@ -129,8 +132,15 @@ class MainViewModel @Inject constructor(
 
     fun setCurrentVocabulary(pos: Int){
         _vocabularies.value?.let {
-            currentVocabulary = it.get(pos)
+            _currentVocabulary.postValue(it.get(pos))
+            _currentPosEng = pos
         }
+    }
+
+    fun setGroupForCurrentVocabulary(group_id: Int){
+        val vocabulary = _currentVocabulary.value?.copy(group_id = group_id)
+        vocabulary?.let {voc -> _currentVocabulary.postValue(voc)}
+
     }
 
     fun setCurrentGroup(pos: Int){
@@ -177,6 +187,30 @@ class MainViewModel @Inject constructor(
                     }
                 }
                 Log.e(TAG, "changePassword: done")
+            }
+        }
+    }
+    fun updateVocabulary(content: String, vn: String, pronunciation: String, pathImg: String?, type: String){
+        Log.e(TAG, type, )
+        viewModelScope.launch(Dispatchers.IO){
+            _currentVocabulary.value?.let {
+                val newEng = Eng(it.eng_id, it.group_id, pronunciation, content,type, pathImg, listOf(it.vns[0].copy(content = vn)))
+                _vocabularies.value?.let{ list ->
+                    list.get(_currentPosEng).group_id = newEng.group_id
+                    list.get(_currentPosEng).content = newEng.content
+                    list.get(_currentPosEng).path_image = newEng.path_image
+                    list.get(_currentPosEng).pronunciation = newEng.pronunciation
+                    list.get(_currentPosEng).type = newEng.type
+                    list.get(_currentPosEng).vns = newEng.vns
+                    _vocabularies.postValue(list)
+                }
+                repo.putEng(newEng).collect { res ->
+                    if(res is Result.Loading){
+                        _isLoading.postValue(true)
+                    } else {
+                        _isLoading.postValue(false)
+                    }
+                }
             }
         }
     }

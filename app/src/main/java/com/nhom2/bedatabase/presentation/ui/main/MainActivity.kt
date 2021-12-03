@@ -30,8 +30,9 @@ class MainActivity : AppCompatActivity() {
         observer()
     }
 
-    fun navigate(id: Int, bundle: Bundle? = null){
+    fun navigate(id: Int, bundle: Bundle? = null, popBackStack: Boolean = false){
         navController.navigate(id, bundle)
+        if (popBackStack) supportFragmentManager.popBackStack()
     }
 
     fun setUpViewFullScreen(){
