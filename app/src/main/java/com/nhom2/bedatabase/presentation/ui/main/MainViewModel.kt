@@ -49,6 +49,8 @@ class MainViewModel @Inject constructor(
 
     var currentGroup: Group? = null
 
+    var currentGroupId: Int? = null
+
     private var process = 0
 
     private val TAG = "Main ViewModel"
@@ -137,13 +139,18 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun setCurrentVocabulary(eng: Eng){
+        _currentVocabulary.postValue(eng)
+    }
+
     fun setGroupForCurrentVocabulary(group_id: Int){
+        currentGroupId = group_id
         val vocabulary = _currentVocabulary.value?.copy(group_id = group_id)
         vocabulary?.let {voc -> _currentVocabulary.postValue(voc)}
 
     }
 
-    fun setCurrentGroup(pos: Int){
+    fun setCurrentGroup(pos: Int) {
         _groups.value?.let {
             currentGroup = it.get(pos)
         }
@@ -191,7 +198,7 @@ class MainViewModel @Inject constructor(
         }
     }
     fun updateVocabulary(content: String, vn: String, pronunciation: String, pathImg: String?, type: String){
-        Log.e(TAG, type, )
+
         viewModelScope.launch(Dispatchers.IO){
             _currentVocabulary.value?.let {
                 val newEng = Eng(it.eng_id, it.group_id, pronunciation, content,type, pathImg, listOf(it.vns[0].copy(content = vn)))
@@ -232,20 +239,27 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun postVocabulary(group_id: Int, content: String, vns: String, pronunciation: String, pathImg: String?, type: String){
-
+    fun postVocabulary(eng: Eng){
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
-            val listStringVn = vns.split("\\,\\s*")
-            val listVn = mutableListOf<Vn>()
-            for(i in listStringVn){
-                listVn.add(Vn(
-                    vn_id = null,
-                    eng_id = null,
-                    content = i
-                ))
+
+//            val listStringVn = vns.split("(\\,?\\s*)")
+//            val listVn = mutableListOf<Vn>()
+//            for(i in listStringVn){
+//                listVn.add(Vn(
+//                    vn_id = null,
+//                    eng_id = null,
+//                    content = i
+//                ))
+//            }
+
+            val group_id = if(eng.group_id != -1) eng.group_id else currentGroupId
+            val newEng =eng.copy(group_id = group_id!!)
+            _vocabularies.value?.let{ list ->
+                val mList = list.toMutableList()
+                mList.add(newEng)
+                _vocabularies.postValue(mList)
             }
-            val newEng = Eng(null, group_id, pronunciation, content, type, pathImg, listVn)
             repo.postEng(newEng).collect {
                 if(it is Result.Success || it is Result.Error){
                     _isLoading.postValue(false)

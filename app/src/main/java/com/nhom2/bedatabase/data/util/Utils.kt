@@ -4,6 +4,7 @@ import com.nhom2.bedatabase.data.models.AccountRequest
 import com.nhom2.bedatabase.data.models.AccountResponse
 import com.nhom2.bedatabase.domain.common.Constants.ALGORITHM_HASH
 import com.nhom2.bedatabase.domain.models.Account
+import com.nhom2.bedatabase.domain.models.Vn
 import java.security.MessageDigest
 
 object Utils {
@@ -34,3 +35,12 @@ fun AccountResponse.toAccount(): Account{
         token = this.token
     )
 }
+
+//fun convertVnsToString(list: List<Vn>): String{
+//    val res = ""
+//    for(s in list){
+//
+//    }
+//}
+
+

@@ -64,11 +64,14 @@ class VocabularyFragment : Fragment() {
         (activity as MainActivity).showAddFabButton(true)
         (activity as MainActivity).setAddOnClickListener {
             Log.d(TAG, "setUpUi: addOnClick")
-            val bundle: Bundle? = null
-            current_group_id?.let{
-                bundle?.putInt(ADD_ACTION, it)
+
+            if(current_group_id == null){
+                (activity as MainActivity).navigate(R.id.action_vocabularyFragment_to_addNewWordFragment)
+            }else{
+                val bundle = Bundle()
+                bundle.putInt(ADD_ACTION, current_group_id!!)
+                (activity as MainActivity).navigate(R.id.action_vocabularyFragment_to_addNewWordFragment, bundle)
             }
-            (activity as MainActivity).navigate(R.id.action_vocabularyFragment_to_addNewWordFragment, bundle)
         }
         adapter = VocabularyAdapter(
             onEditEngClick = {
