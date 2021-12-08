@@ -2,8 +2,10 @@ package com.nhom2.bedatabase.presentation.ui.main.fragments.profile
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,10 +13,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.nhom2.bedatabase.R
+import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.databinding.FragmentProfileBinding
 import com.nhom2.bedatabase.domain.common.Constants
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
@@ -98,14 +102,19 @@ class ProfileFragment : Fragment() {
         viewModel.user.observe(viewLifecycleOwner){
             Log.e("info", "observer: $it", )
             binding.edtNameUser.setText(it.user_name)
-            it.path_image?.let {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    val imgFile = File(it)
-                    withContext(Dispatchers.Main) {
-//                        binding.imgAvatar.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
-                    }
+            if (!it.path_image.isNullOrBlank())
+            {
+                it.path_image?.let { s ->
+                    binding.imgAvatar.setImageBitmap(Utils.stringToBitmap(s))
                 }
             }
+        }
+        viewModel.vocabularies.observe(viewLifecycleOwner){
+            binding.tvNumVocabularyProfile.text = it.size.toString()
+        }
+
+        viewModel.groups.observe(viewLifecycleOwner){
+            binding.tvNumGroupProfile.text = it.size.toString()
         }
     }
 
@@ -116,11 +125,10 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == Constants.REQUEST_SELECT_AVATAR){
-            data?.let{
-                pathImg= it.data?.path
-                Log.e("path image", "$pathImg" )
-
-                binding.imgAvatar.setImageURI(it.data)
+            data?.data?.let{
+                Log.e("path image", "$it" )
+                binding.imgAvatar.setImageURI(it)
+                pathImg = Utils.bitmapToString(MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it))
             }
         }
     }

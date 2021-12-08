@@ -8,16 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentGamePlayBinding
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
+import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
 import com.nhom2.bedatabase.presentation.ui.main.view_models.GameViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GamePlayFragment : Fragment() {
     private lateinit var binding: FragmentGamePlayBinding
-    private val viewModel by activityViewModels<GameViewModel>()
+    private val mainViewModel by activityViewModels<MainViewModel>()
+    private val viewModel by viewModels<GameViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,6 +31,10 @@ class GamePlayFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        mainViewModel.vocabularies.observe(viewLifecycleOwner){
+            viewModel.listEngWords = it
+            viewModel.getRandomWord(0)
+        }
         viewModel.randomQuestions.observe(viewLifecycleOwner){
             with(binding){
                 tvQuestion.text = it[viewModel.answerIndex].content
@@ -54,11 +61,13 @@ class GamePlayFragment : Fragment() {
         }
         viewModel.isCorrectAnswer.observe(viewLifecycleOwner){
             if (it == 1) {
+                viewModel.getRandomWord()
                 binding.tvResult.visibility = View.VISIBLE
                 binding.tvResult.text = getString(R.string.right_answer)
                 binding.tvResult.setTextColor(resources.getColor(R.color.correct))
             }else {
                 if (it == 2){
+                    viewModel.getRandomWord()
                     binding.tvResult.visibility = View.VISIBLE
                     binding.tvResult.text = getString(R.string.wrong_answer)
                     binding.tvResult.setTextColor(resources.getColor(R.color.wrong))
@@ -67,7 +76,6 @@ class GamePlayFragment : Fragment() {
                     binding.tvResult.visibility = View.GONE
                 }
             }
-            viewModel.getRandomWord()
         }
     }
 

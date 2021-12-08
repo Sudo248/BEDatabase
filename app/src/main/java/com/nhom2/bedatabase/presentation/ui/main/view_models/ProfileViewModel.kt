@@ -27,14 +27,6 @@ class ProfileViewModel @Inject constructor(
         getUser()
     }
 
-    fun changeImage(path: String){
-        _user.value?.let{
-            it.path_image = path
-            Log.e("change image", path, )
-        }
-        _user.postValue(_user.value)
-    }
-
     private fun getUser(){
         viewModelScope.launch(Dispatchers.IO){
             mainRepository.getUser().collect {

@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.nhom2.bedatabase.R
+import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.databinding.ActivityMainBinding
 import com.nhom2.bedatabase.presentation.ui.sign.SignActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +38,11 @@ class MainActivity : AppCompatActivity() {
         navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
 
         binding.bottomNavigation.setupWithNavController(navController)
-
+        binding.userImg.setImageBitmap(viewModel.user.value?.path_image?.let {
+            Utils.stringToBitmap(
+                it
+            )
+        })
 //        binding.bottomNavigation.setOnItemSelectedListener {
 //            if (it.itemId == R.id.newGameFragment || it.itemId == R.id.profileFragment)
 //                setUpViewFullScreen()
