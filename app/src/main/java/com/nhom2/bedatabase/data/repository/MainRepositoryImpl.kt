@@ -4,6 +4,7 @@ import android.util.Log
 import com.nhom2.bedatabase.data.api.ApiService
 import com.nhom2.bedatabase.data.models.AccountChangePassword
 import com.nhom2.bedatabase.data.models.AccountRequest
+import com.nhom2.bedatabase.data.models.PostEng
 import com.nhom2.bedatabase.data.prefs.Pref
 import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.data.util.toAccountRequest
@@ -18,6 +19,7 @@ class MainRepositoryImpl(
     private val api: ApiService,
     private val pref: Pref
 ) : MainRepository {
+
     private val TAG = "MainRepositoryImpl"
     override suspend fun signIn(account: Account): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
@@ -142,14 +144,13 @@ class MainRepositoryImpl(
 
     override suspend fun getEngsByUserId(user_id: Int): Flow<Result<List<Eng>>> = flow{
         emit(Result.Loading)
-        try {
+        try{
             val listEngResponse = api.getEngsByUserId(user_id)
             if(listEngResponse.isSuccessful){
                 emit(Result.Success(listEngResponse.body()!!))
             }else{
                 emit(Result.Error(listEngResponse.errorBody()?.string().toString()))
             }
-
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
             Log.e(TAG, "getEngsByUserId: ${e.message}")
@@ -174,7 +175,16 @@ class MainRepositoryImpl(
     override suspend fun postEng(eng: Eng): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
         try {
-            api.postEng(eng)
+            val postEng = PostEng(
+                user_id = pref.getCurrentUserId(),
+                group_id = eng.group_id,
+                pronunciation = eng.pronunciation,
+                content = eng.content,
+                type = eng.type,
+                path_image = eng.path_image,
+                vns = eng.vns
+            )
+            api.postEng(postEng)
             emit(Result.Success(true))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))

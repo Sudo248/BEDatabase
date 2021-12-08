@@ -16,7 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -210,6 +209,28 @@ class MainViewModel @Inject constructor(
                     } else {
                         _isLoading.postValue(false)
                     }
+                }
+            }
+        }
+    }
+
+    fun postVocabulary(group_id: Int, content: String, vns: String, pronunciation: String, pathImg: String?, type: String){
+
+        viewModelScope.launch(Dispatchers.IO) {
+            _isLoading.postValue(true)
+            val listStringVn = vns.split("\\,\\s*")
+            val listVn = mutableListOf<Vn>()
+            for(i in listStringVn){
+                listVn.add(Vn(
+                    vn_id = null,
+                    eng_id = null,
+                    content = i
+                ))
+            }
+            val newEng = Eng(null, group_id, pronunciation, content, type, pathImg, listVn)
+            repo.postEng(newEng).collect {
+                if(it is Result.Success || it is Result.Error){
+                    _isLoading.postValue(false)
                 }
             }
         }

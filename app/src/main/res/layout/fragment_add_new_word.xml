@@ -22,7 +22,7 @@
             android:layout_height="?attr/actionBarSize"
             app:titleTextColor="@color/white"
             app:titleCentered="true"
-            app:title="@string/edit"
+            app:title="Add new word"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_24"
             app:navigationIconTint="@color/white"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -53,7 +53,7 @@
                         android:background="@drawable/ic_english_flag"
                         android:layout_gravity="center"/>
                     <EditText
-                        android:id="@+id/edt_english_word"
+                        android:id="@+id/edt_add_new_english_word"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -75,7 +75,7 @@
                         android:background="@drawable/ic_vietnam_flag"
                         android:layout_gravity="center"/>
                     <EditText
-                        android:id="@+id/edt_vn_word"
+                        android:id="@+id/edt_add_new_vn_word"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -97,7 +97,7 @@
                         android:background="@drawable/ic_pronunciation"
                         android:layout_gravity="center"/>
                     <EditText
-                        android:id="@+id/edt_pronunciation"
+                        android:id="@+id/edt_add_new_pronunciation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                     <Spinner
-                        android:id="@+id/spn_type"
+                        android:id="@+id/spn_add_new_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
@@ -151,7 +151,7 @@
                         app:layout_constraintTop_toTopOf="@+id/btn_choose_group" />
 
                     <TextView
-                        android:id="@+id/tv_group_type"
+                        android:id="@+id/tv_add_new_group_type"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"

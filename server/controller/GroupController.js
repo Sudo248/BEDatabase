@@ -32,9 +32,13 @@ module.exports.postGroup = async(req, res, next) => {
             description
         } = req.body;
 
+        console.log(req.body)
+
         const group = new GroupEngDB(null, name, description);
 
         await group.insert();
+
+        console.log("Insert group successs!")
 
         res.status(201).json({message: "Insert group successs!"})
 

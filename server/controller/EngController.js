@@ -110,6 +110,8 @@ module.exports.getEngByType = async(req, res, next) => {
 
 module.exports.postEng = async(req, res, next) => {
     try {
+        
+        console.log("post Eng", req.body)
 
         const{
             user_id,
@@ -117,7 +119,8 @@ module.exports.postEng = async(req, res, next) => {
             pronunciation,
             content,
             type,
-            path_image
+            path_image,
+            vns
         } = req.body;
 
         const eng = new EngDB(
@@ -129,15 +132,26 @@ module.exports.postEng = async(req, res, next) => {
             path_image
         )
         
-        const [newEng,_] = await eng.insert();
+        await eng.insert();
 
-        console.log("New eng after insert ", newEng[0].eng_id)
+        const [newEngIds, _] = await EngDB.getCurrentEngId()
+        
+        const newEngId = newEngIds[0].MAX_ID
 
-        const junctionUserEng = new JunctionUserEng(user_id, eng_id);
+        console.log("New eng after insert ", newEngId)
+
+        for(vn of vns){            
+            const newVn = new VnDB(null, newEngId, vn.content)
+            newVn.insert()
+        }
+        
+        const junctionUserEng = new JunctionUserEng(user_id, newEngId);
 
         await junctionUserEng.insert();
 
-        res.status(200).json({id: newEng[0]})
+        console.log("Add new word success")
+
+        res.status(200).json({id: newEngId})
         
     } catch (error) {
         next(error);

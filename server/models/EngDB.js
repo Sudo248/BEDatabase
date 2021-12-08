@@ -46,6 +46,13 @@ module.exports = class EngDB{
         return db.execute(sql);
     }
 
+    static getCurrentEngId(){
+        const sql = `
+        SELECT MAX(eng_id) as MAX_ID FROM engs;
+        `;
+        return db.execute(sql);
+    }
+
     static deleteEngById(id){
         const sql = `
         DELETE FROM engs
@@ -71,7 +78,7 @@ module.exports = class EngDB{
 
     static getEngByGroupId(group_id){
         const sql = `
-        SELLECT * FROM engs
+        SELECT * FROM engs
         WHERE  group_id = ${group_id};
         `;
         return db.execute(sql);
