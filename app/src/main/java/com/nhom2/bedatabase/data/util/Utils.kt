@@ -6,6 +6,25 @@ import com.nhom2.bedatabase.domain.common.Constants.ALGORITHM_HASH
 import com.nhom2.bedatabase.domain.models.Account
 import java.security.MessageDigest
 
+import android.graphics.Bitmap
+
+import android.util.Base64
+
+import java.io.ByteArrayOutputStream
+import android.graphics.BitmapFactory
+
+
+
+
+
+
+
+
+
+
+
+
+
 object Utils {
 
     var access_token: String? = null
@@ -18,6 +37,21 @@ object Utils {
             sb.append(String.format("%02X",i))
         }
         return sb.toString()
+    }
+
+    fun bitmapToString(image: Bitmap): String {
+        val outputStream = ByteArrayOutputStream()
+        image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+
+        return Base64.encodeToString(
+            outputStream.toByteArray(),
+            Base64.DEFAULT
+        )
+    }
+
+    fun stringToBitmap(encodedImage: String): Bitmap {
+        val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
     }
 }
 
@@ -34,3 +68,5 @@ fun AccountResponse.toAccount(): Account{
         token = this.token
     )
 }
+
+

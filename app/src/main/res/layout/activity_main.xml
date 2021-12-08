@@ -48,8 +48,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/avatar_default"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription,MissingConstraints" />
+                        app:layout_constraintTop_toTopOf="parent"/>
                 </androidx.cardview.widget.CardView>
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>

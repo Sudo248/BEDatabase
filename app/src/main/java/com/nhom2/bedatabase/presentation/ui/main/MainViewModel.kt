@@ -33,10 +33,10 @@ class MainViewModel @Inject constructor(
     private val _user: MutableLiveData<User> = MutableLiveData()
     val user: LiveData<User> = _user
 
-    private val _vocabularies: MutableLiveData<List<Eng>> = MutableLiveData()
+    private val _vocabularies: MutableLiveData<List<Eng>> = MutableLiveData(listOf())
     val vocabularies: LiveData<List<Eng>> = _vocabularies
 
-    private val _groups: MutableLiveData<List<Group>> = MutableLiveData()
+    private val _groups: MutableLiveData<List<Group>> = MutableLiveData(listOf())
     val groups: LiveData<List<Group>> = _groups
 
     private val _currentVocabulary = MutableLiveData<Eng>()

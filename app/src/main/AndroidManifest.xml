@@ -4,6 +4,7 @@
     package="com.nhom2.bedatabase">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".presentation.di.MyApplication"
         android:allowBackup="true"
