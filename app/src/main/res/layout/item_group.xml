@@ -15,7 +15,7 @@
         <TextView
             android:id="@+id/tv_name_group"
             android:layout_margin="20dp"
-            android:textSize="24sp"
+            android:textSize="16sp"
             android:textColor="@color/black"
             tools:text="Hanh Dong"
             android:layout_width="wrap_content"

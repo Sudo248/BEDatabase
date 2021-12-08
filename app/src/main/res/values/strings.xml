@@ -24,7 +24,7 @@
     <string name="group_list">Group List</string>
 
     <string name="new_user">New user?</string>
-    <string name="sign_up">Sign up</string>
+    <string name="sign_up"><u>Sign up</u></string>
     <string name="confirm_password">Confirm password</string>
 
     <string name="play_game">Let\'s Play\nGame!!</string>
