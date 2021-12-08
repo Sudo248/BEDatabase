@@ -57,7 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:textSize="30sp"
+                        android:textSize="16sp"
                         android:textColor="@color/black"/>
                 </LinearLayout>
 
@@ -79,7 +79,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:textSize="30sp"
+                        android:textSize="16sp"
                         android:textColor="@color/black"/>
                 </LinearLayout>
 
@@ -101,7 +101,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:textSize="30sp"
+                        android:textSize="16sp"
                         android:textColor="@color/black"/>
                 </LinearLayout>
 
@@ -127,6 +127,7 @@
                         android:layout_height="wrap_content"
                         android:spinnerMode="dropdown"
                         android:layout_marginStart="20dp"
+                        android:layout_gravity="center_vertical"
                         tools:listitem="@layout/spinner_type_item"
                         />
                 </LinearLayout>
@@ -156,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:textColor="@color/black"
-                        android:textSize="30sp"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btn_choose_group"
                         app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -185,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/confirm"
-                    android:textSize="30sp"
+                    android:textSize="16sp"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="5dp"
                     android:textAllCaps="false"

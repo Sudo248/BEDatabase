@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -98,7 +99,7 @@ class MainViewModel @Inject constructor(
                             _vocabularies.postValue(list)
                         }
                         process += 1
-                        if(process == 2)
+                        if(process >= 2)
                             _isLoading.postValue(false)
                     }
                     is Result.Error -> {
@@ -118,7 +119,7 @@ class MainViewModel @Inject constructor(
                             _groups.postValue(list)
                         }
                         process += 1
-                        if(process == 2)
+                        if(process >= 2)
                             _isLoading.postValue(false)
                     }
                     is Result.Error -> {
@@ -209,6 +210,23 @@ class MainViewModel @Inject constructor(
                     } else {
                         _isLoading.postValue(false)
                     }
+                }
+            }
+        }
+    }
+    fun addGroup(group: Group){
+        viewModelScope.launch(Dispatchers.IO){
+            repo.postGroup(group).collect {
+                if (it is Result.Loading){
+                    _isLoading.postValue(true)
+                } else {
+                    _groups.value?.let{ list ->
+                        val listGroup = list.toMutableList()
+                        listGroup.add(group)
+                        _groups.postValue(listGroup)
+                        _user.value?.user_id?.let { it1 -> getDataForUser(it1) }
+                    }
+                    _isLoading.postValue(false)
                 }
             }
         }

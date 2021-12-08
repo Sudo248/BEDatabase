@@ -10,6 +10,7 @@ import androidx.core.view.marginLeft
 import androidx.core.view.marginStart
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.ActivityMainBinding
@@ -27,12 +28,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
         setUpUi()
         observer()
     }
 
     private fun setUpUi(){
         navController = (supportFragmentManager.findFragmentById(R.id.fcv_main) as NavHostFragment).navController
+
+        binding.bottomNavigation.setupWithNavController(navController)
+
+//        binding.bottomNavigation.setOnItemSelectedListener {
+//            if (it.itemId == R.id.newGameFragment || it.itemId == R.id.profileFragment)
+//                setUpViewFullScreen()
+//        }
     }
 
     private fun observer(){

@@ -21,6 +21,7 @@ class NewGameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity).setUpViewFullScreen()
         binding.fabLetGo.setOnClickListener{
             (activity as MainActivity).navigate(R.id.action_newGameFragment_to_gamePlayFragment)
         }

@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:singleLine="true"
                 android:text="@string/vocabulary" />
         </LinearLayout>
@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:text="@string/group" />
         </LinearLayout>
 
@@ -116,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:text="@string/game" />
         </LinearLayout>
 
@@ -145,7 +145,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 android:text="@string/profile" />
         </LinearLayout>
 

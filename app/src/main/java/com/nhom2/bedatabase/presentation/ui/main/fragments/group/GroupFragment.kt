@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
 import com.nhom2.bedatabase.databinding.FragmentGroupBinding
-import com.nhom2.bedatabase.domain.common.Constants.ADD_ACTION
 import com.nhom2.bedatabase.domain.common.Constants.CURRENT_GROUP_ID
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
@@ -19,6 +18,7 @@ class GroupFragment : Fragment() {
     lateinit var binding: FragmentGroupBinding
     val viewModel by activityViewModels<MainViewModel>()
     lateinit var adapter: GroupAdapter
+    val addNewGroupDialogFragment by lazy { AddNewGroupDialogFragment() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,13 +41,13 @@ class GroupFragment : Fragment() {
     }
 
     private fun setUpUi() {
-        
+        (activity as MainActivity).showAddFabButton(true)
+        (activity as MainActivity).setAddOnClickListener {
+            addNewGroupDialogFragment.show(childFragmentManager, null)
+        }
         adapter = GroupAdapter(
             onEditGroupClick = {
                 onEditGroupClick(it)
-            },
-            onDeleteGroupClick = {
-                onDeleteGroupClick(it)
             },
             onOpenGroup = {
                 onOpenGroup(it)

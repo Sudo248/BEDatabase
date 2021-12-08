@@ -15,6 +15,7 @@ class LoadingScreen : DialogFragment(){
         savedInstanceState: Bundle?
     ): View {
         binding = LoadingScreenBinding.inflate(inflater,container,false)
+        isCancelable = false
         return binding.root
     }
 }

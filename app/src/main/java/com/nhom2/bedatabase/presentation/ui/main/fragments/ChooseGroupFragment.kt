@@ -40,8 +40,6 @@ class ChooseGroupFragment : Fragment() {
         adapter = GroupAdapter(
             onEditGroupClick = {
             },
-            onDeleteGroupClick = {
-            },
             onOpenGroup = {
                 onOpenGroup(it)
             },

@@ -3,14 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/drawable/add_word.xml" value="0.3106481481481482" />
         <entry key="app/src/main/res/drawable/bg_activity.xml" value="0.34269662921348315" />
         <entry key="app/src/main/res/drawable/bg_left_right_activity.xml" value="0.3106481481481482" />
-        <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.3106481481481482" />
         <entry key="app/src/main/res/drawable/ic_baseline_east_24.xml" value="0.34269662921348315" />
         <entry key="app/src/main/res/drawable/ic_bottom.xml" value="0.34269662921348315" />
+        <entry key="app/src/main/res/drawable/ic_check.xml" value="0.3055555555555556" />
+        <entry key="app/src/main/res/drawable/ic_confirm.xml" value="0.13148148148148148" />
+        <entry key="app/src/main/res/drawable/ic_group.xml" value="0.24861111111111112" />
+        <entry key="app/src/main/res/drawable/ic_key.xml" value="0.32968036529680367" />
         <entry key="app/src/main/res/drawable/ic_top.xml" value="0.34269662921348315" />
         <entry key="app/src/main/res/drawable/item_navigation.xml" value="0.3106481481481482" />
+        <entry key="app/src/main/res/drawable/pencilline3.xml" value="0.24861111111111112" />
+        <entry key="app/src/main/res/drawable/re_password.xml" value="0.32968036529680367" />
         <entry key="app/src/main/res/drawable/rectangle_bg_activity_conner_25.xml" value="0.3106481481481482" />
         <entry key="app/src/main/res/drawable/rectangle_conner_40.xml" value="0.34269662921348315" />
         <entry key="app/src/main/res/drawable/rectangle_main_light_conner_40.xml" value="0.34269662921348315" />
@@ -18,13 +22,20 @@
         <entry key="app/src/main/res/drawable/rectangle_white_conner_40.xml" value="0.34269662921348315" />
         <entry key="app/src/main/res/drawable/rectangle_white_top_left_top_right_conner_25.xml" value="0.3106481481481482" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_sign.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_sign.xml" value="0.75" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_add_new_word.xml" value="0.29259259259259257" />
-        <entry key="app/src/main/res/layout/fragment_edit_word.xml" value="0.29259259259259257" />
+        <entry key="app/src/main/res/layout/dialog_add_groud.xml" value="0.23425925925925925" />
+        <entry key="app/src/main/res/layout/dialog_add_group.xml" value="0.22314814814814815" />
+        <entry key="app/src/main/res/layout/dialog_change_password.xml" value="0.3199074074074074" />
+        <entry key="app/src/main/res/layout/dialog_word_detail.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_add_new_word.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_choose_group.xml" value="0.3199074074074074" />
+        <entry key="app/src/main/res/layout/fragment_edit_word.xml" value="0.23287037037037037" />
+        <entry key="app/src/main/res/layout/fragment_game_play.xml" value="0.1726851851851852" />
         <entry key="app/src/main/res/layout/fragment_group.xml" value="0.2875341219290264" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.32916666666666666" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.32916666666666666" />
+        <entry key="app/src/main/res/layout/fragment_new_game.xml" value="0.24537037037037038" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.22" />
@@ -32,6 +43,7 @@
         <entry key="app/src/main/res/layout/item_group.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_vocabulary.xml" value="0.29259259259259257" />
         <entry key="app/src/main/res/layout/loading_screen.xml" value="0.2875341219290264" />
+        <entry key="app/src/main/res/layout/spinner_type_item.xml" value="0.23287037037037037" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.32916666666666666" />
         <entry key="app/src/main/res/menu/sign_menu.xml" value="0.32916666666666666" />
       </map>
