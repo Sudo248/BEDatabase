@@ -1,6 +1,7 @@
 package com.nhom2.bedatabase.presentation.ui.main
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -157,9 +158,17 @@ class MainViewModel @Inject constructor(
     }
 
     fun deleteVocabulary(pos: Int){
-        val list = _vocabularies.value as MutableList
-        list.removeAt(pos)
-        _vocabularies.postValue(list)
+        viewModelScope.launch(Dispatchers.IO) {
+            val list = _vocabularies.value as MutableList
+            val eng = list.removeAt(pos)
+            _vocabularies.postValue(list)
+            Log.d(TAG, "deleteVocabulary: ${eng.eng_id!!}")
+            repo.deleteEng(eng.eng_id!!).collect{
+                if(it is Result.Success){
+                    Log.d(TAG, "deleteVocabulary: success")
+                }
+            }
+        }
     }
 
     fun deleteGroup(pos: Int){

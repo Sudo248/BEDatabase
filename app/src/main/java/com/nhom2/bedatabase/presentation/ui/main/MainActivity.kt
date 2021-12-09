@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     private val TAG = "MainActivity"
+
+    private var listSizeEng = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -58,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.vocabularies.observe(this){
+            listSizeEng = it.size
             binding.tvNumVocabularyHeader.text = "${it.size}"
         }
 
@@ -97,5 +101,7 @@ class MainActivity : AppCompatActivity() {
             onClick()
         }
     }
+
+    fun checkConditionToPlayGame() = listSizeEng >= 4
 
 }

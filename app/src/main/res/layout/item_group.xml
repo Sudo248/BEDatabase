@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="20dp"
-    app:cardElevation="15dp"
     android:layout_marginBottom="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/gray_light">
         <TextView
             android:id="@+id/tv_name_group"
             android:layout_margin="20dp"
@@ -28,7 +28,7 @@
             android:id="@+id/btn_edit_group"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/gray_light"
             android:src="@drawable/pencilline"
             app:layout_constraintBottom_toBottomOf="@+id/btn_delete_group"
             app:layout_constraintEnd_toStartOf="@id/btn_delete_group"
@@ -45,8 +45,9 @@
             android:visibility="invisible"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

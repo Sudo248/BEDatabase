@@ -33,7 +33,9 @@ class GamePlayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel.vocabularies.observe(viewLifecycleOwner){
             viewModel.listEngWords = it
+
             viewModel.getRandomWord(0)
+
         }
         viewModel.randomQuestions.observe(viewLifecycleOwner){
             with(binding){

@@ -204,7 +204,9 @@ class MainRepositoryImpl(
 
     override suspend fun deleteEng(eng_id: Int): Flow<Result<Boolean>> = flow{
         emit(Result.Loading)
+        Log.d(TAG, "deleteEng1: $eng_id")
         try {
+            Log.d(TAG, "deleteEng2: $eng_id")
             api.deleteEngById(eng_id)
             emit(Result.Success(true))
         }catch (e: Exception){
