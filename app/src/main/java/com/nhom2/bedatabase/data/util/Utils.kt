@@ -42,7 +42,7 @@ object Utils {
 
     fun bitmapToString(image: Bitmap): String {
         val outputStream = ByteArrayOutputStream()
-        image.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        image.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
 
         return Base64.encodeToString(
             outputStream.toByteArray(),

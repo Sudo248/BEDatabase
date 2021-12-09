@@ -10,9 +10,9 @@ import com.nhom2.bedatabase.domain.models.Eng
 
 
 class VocabularyAdapter(
-    private val onEditEngClick: (pos: Int) -> Unit,
-    private val onDeleteEngClick: (pos: Int) -> Unit,
-    private val onEngClick: (pos: Int) -> Unit
+    private val onEditEngClick: (eng_id: Int) -> Unit,
+    private val onDeleteEngClick: (eng_id: Int) -> Unit,
+    private val onEngClick: (eng_id: Int) -> Unit
 ) : ListAdapter<Eng, VocabularyAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<Eng>(){
         override fun areItemsTheSame(oldItem: Eng, newItem: Eng): Boolean = oldItem.eng_id == newItem.eng_id
@@ -21,20 +21,20 @@ class VocabularyAdapter(
 ) {
 
     inner class ViewHolder(private val binding: ItemVocabularyBinding) : RecyclerView.ViewHolder(binding.root){
-        fun onBind(eng: Eng, pos: Int){
+        fun onBind(eng: Eng){
             with(binding){
                 tvNameVocabulary.text = eng.content
                 tvMeanVocabulary.text = eng.vns[0].content
                 tvVocabularyPronunciation.text = eng.pronunciation
                 btnEditVocabulary.setOnClickListener{
-                    onEditEngClick(pos)
+                    onEditEngClick(eng.eng_id!!)
                 }
                 btnDeleteVocabulary.setOnClickListener {
-                    onDeleteEngClick(pos)
+                    onDeleteEngClick(eng.eng_id!!)
                 }
 
                 root.setOnClickListener {
-                    onEngClick(pos)
+                    onEngClick(eng.eng_id!!)
                 }
             }
         }
@@ -45,7 +45,7 @@ class VocabularyAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(getItem(position), position)
+        holder.onBind(getItem(position))
     }
 
 }

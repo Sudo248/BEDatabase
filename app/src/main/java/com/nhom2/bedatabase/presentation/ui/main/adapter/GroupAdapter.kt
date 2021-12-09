@@ -10,7 +10,7 @@ import com.nhom2.bedatabase.databinding.ItemGroupBinding
 import com.nhom2.bedatabase.domain.models.Group
 
 class GroupAdapter(
-    private val onEditGroupClick: (pos: Int) -> Unit,
+    private val onEditGroupClick: (group_id: Int) -> Unit,
     private val onOpenGroup: (group_id: Int) -> Unit,
     private val isEnableEditAndDelete: Boolean = true
 ) : ListAdapter<Group, GroupAdapter.ViewHolder>(
@@ -20,7 +20,7 @@ class GroupAdapter(
     }
 ){
     inner class ViewHolder(private val binding: ItemGroupBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(group: Group, position: Int){
+        fun bind(group: Group){
             with(binding){
                 tvNameGroup.text = group.name
                 btnEditGroup.setOnClickListener {
@@ -42,6 +42,6 @@ class GroupAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), position)
+        holder.bind(getItem(position))
     }
 }

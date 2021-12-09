@@ -43,7 +43,6 @@ class NewGameFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        (activity as MainActivity).resetView()
         super.onDestroy()
     }
 }

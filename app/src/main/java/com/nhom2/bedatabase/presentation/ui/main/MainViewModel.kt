@@ -1,7 +1,9 @@
 package com.nhom2.bedatabase.presentation.ui.main
 
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -133,10 +135,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun setCurrentVocabulary(pos: Int){
+    fun setCurrentVocabulary(eng_id: Int){
         _vocabularies.value?.let {
-            _currentVocabulary.postValue(it.get(pos))
-            _currentPosEng = pos
+            _currentPosEng = it.indexOfFirst { e -> e.eng_id == eng_id }
+            _currentVocabulary.postValue(it.get(_currentPosEng))
         }
     }
 
@@ -157,19 +159,22 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun deleteVocabulary(pos: Int){
+    fun deleteVocabulary(eng_id: Int){
         viewModelScope.launch(Dispatchers.IO) {
             val list = _vocabularies.value as MutableList
-            val eng = list.removeAt(pos)
+            val eng = list.first { it.eng_id == eng_id }
+            list.remove(eng)
             _vocabularies.postValue(list)
-            Log.d(TAG, "deleteVocabulary: ${eng.eng_id!!}")
-            repo.deleteEng(eng.eng_id!!).collect{
+            Log.d(TAG, "deleteVocabulary: $eng_id")
+            repo.deleteEng(eng_id).collect{
                 if(it is Result.Success){
                     Log.d(TAG, "deleteVocabulary: success")
                 }
             }
         }
     }
+
+
 
     fun deleteGroup(pos: Int){
         val list = _groups.value as MutableList
@@ -206,11 +211,26 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-    fun updateVocabulary(content: String, vn: String, pronunciation: String, pathImg: String?, type: String){
+
+    fun updateVocabulary(content: String, vns: String, pronunciation: String, pathImg: String?, type: String){
 
         viewModelScope.launch(Dispatchers.IO){
             _currentVocabulary.value?.let {
-                val newEng = Eng(it.eng_id, it.group_id, pronunciation, content,type, pathImg, listOf(it.vns[0].copy(content = vn)))
+                val listVn = vns.split(",").map { vn -> vn.trim() }.toMutableList()
+                val tmpEng = it.vns.toMutableList()
+                for(vn in it.vns){
+                    if(!listVn.contains(vn.content)){
+                        tmpEng.remove(vn)
+                    }else{
+                        listVn.remove(vn.content)
+                    }
+                }
+
+                for(i in listVn ){
+                    tmpEng.add(Vn(null, it.eng_id, i))
+                }
+
+                val newEng = Eng(it.eng_id, it.group_id, pronunciation, content,type, pathImg, tmpEng)
                 _vocabularies.value?.let{ list ->
                     list.get(_currentPosEng).group_id = newEng.group_id
                     list.get(_currentPosEng).content = newEng.content
@@ -220,6 +240,7 @@ class MainViewModel @Inject constructor(
                     list.get(_currentPosEng).vns = newEng.vns
                     _vocabularies.postValue(list)
                 }
+
                 repo.putEng(newEng).collect { res ->
                     if(res is Result.Loading){
                         _isLoading.postValue(true)
@@ -248,29 +269,33 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun postVocabulary(eng: Eng){
+    fun postVocabulary(eng: Eng, vns: String){
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.postValue(true)
 
-//            val listStringVn = vns.split("(\\,?\\s*)")
-//            val listVn = mutableListOf<Vn>()
-//            for(i in listStringVn){
-//                listVn.add(Vn(
-//                    vn_id = null,
-//                    eng_id = null,
-//                    content = i
-//                ))
-//            }
+            val listStringVn = vns.split(",").map{ it.trim() }
+            val listVn = mutableListOf<Vn>()
+            for(i in listStringVn){
+                listVn.add(Vn(
+                    vn_id = null,
+                    eng_id = null,
+                    content = i
+                ))
+            }
 
             val group_id = if(eng.group_id != -1) eng.group_id else currentGroupId
-            val newEng =eng.copy(group_id = group_id!!)
-            _vocabularies.value?.let{ list ->
-                val mList = list.toMutableList()
-                mList.add(newEng)
-                _vocabularies.postValue(mList)
-            }
+            val newEng =eng.copy(group_id = group_id!!, vns = listVn)
+            Log.e(TAG, "postVocabulary: $newEng")
+
             repo.postEng(newEng).collect {
-                if(it is Result.Success || it is Result.Error){
+                if(it is Result.Success){
+                    _isLoading.postValue(false)
+                    _vocabularies.value?.let{ list ->
+                        val mList = list.toMutableList()
+                        mList.add(newEng.copy(eng_id = it.data))
+                        _vocabularies.postValue(mList)
+                    }
+                }else if(it is Result.Error){
                     _isLoading.postValue(false)
                 }
             }

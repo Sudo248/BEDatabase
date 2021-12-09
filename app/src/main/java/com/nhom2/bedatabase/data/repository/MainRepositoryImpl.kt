@@ -172,7 +172,7 @@ class MainRepositoryImpl(
         }
     }
 
-    override suspend fun postEng(eng: Eng): Flow<Result<Boolean>> = flow{
+    override suspend fun postEng(eng: Eng): Flow<Result<Int>> = flow{
         emit(Result.Loading)
         try {
             val postEng = PostEng(
@@ -184,8 +184,8 @@ class MainRepositoryImpl(
                 path_image = eng.path_image,
                 vns = eng.vns
             )
-            api.postEng(postEng)
-            emit(Result.Success(true))
+            val responseEng= api.postEng(postEng)
+            emit(Result.Success(responseEng.id))
         }catch (e: Exception){
             emit(Result.Error("${e.message}"))
         }

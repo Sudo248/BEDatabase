@@ -26,7 +26,7 @@ interface MainRepository {
 
     suspend fun getEngsByGroupId(group_id: Int): Flow<Result<List<Eng>>>
 
-    suspend fun postEng(eng: Eng): Flow<Result<Boolean>>
+    suspend fun postEng(eng: Eng): Flow<Result<Int>>
 
     suspend fun putEng(eng: Eng): Flow<Result<Boolean>>
 

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.databinding.DialogWordDetailBinding
 import com.nhom2.bedatabase.domain.models.Eng
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
@@ -47,13 +48,16 @@ class WordDetailDialogFragment(
                 for(i in it.vns){
                     vns += i.content + ", "
                 }
-                vns.dropLast(2)
+
                 with(binding){
                     tvContent.text = it.content
                     tvPronunciation.text = it.pronunciation
-                    tvVnMeaning.text = vns
+                    tvVnMeaning.text = vns.dropLast(2)
                     tvGroupType.text = viewModel.getGroupNameById(it.group_id)
                     tvType.text = it.type
+                    it.path_image?.let{ img ->
+                        imgWord.setImageBitmap(Utils.stringToBitmap(img))
+                    }
                 }
             }
         }

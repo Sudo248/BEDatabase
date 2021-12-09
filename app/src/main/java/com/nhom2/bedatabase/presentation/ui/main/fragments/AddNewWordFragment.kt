@@ -85,6 +85,10 @@ class AddNewWordFragment : Fragment() {
             binding.btnChooseGroup.visibility = View.INVISIBLE
         }
 
+        binding.toolbarNewWord.setNavigationOnClickListener {
+            (activity as MainActivity).onBackPressed()
+        }
+
         binding.btnChooseGroup.setOnClickListener {
             (activity as MainActivity).navigate(R.id.action_addNewWordFragment_to_chooseGroupFragment)
             viewModel.setCurrentVocabulary(getVocabulary())
@@ -92,9 +96,10 @@ class AddNewWordFragment : Fragment() {
         }
 
         binding.btnConfirm.setOnClickListener {
-            viewModel.postVocabulary(getVocabulary())
+            viewModel.postVocabulary(getVocabulary(), binding.edtAddNewVnWord.text.toString())
             (activity as MainActivity).onBackPressed()
         }
+
         binding.imgWord.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "image/*"
@@ -127,7 +132,7 @@ class AddNewWordFragment : Fragment() {
             edtAddNewVnWord.setText(vocabulary.vns[0].content)
             edtAddNewPronunciation.setText(vocabulary.pronunciation)
             tvAddNewGroupType.text = viewModel.getGroupNameById(vocabulary.group_id)
-            binding.spnAddNewType.setSelection(spinnerAdapter.getPosition(vocabulary.type))
+            spnAddNewType.setSelection(spinnerAdapter.getPosition(vocabulary.type))
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

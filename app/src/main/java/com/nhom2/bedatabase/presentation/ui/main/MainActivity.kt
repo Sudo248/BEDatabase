@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observer(){
-        viewModel.user.observe(this){
-            Log.d("path_image", "observer: ${it.path_image}")
-            if(it.path_image == null){
-                Glide.with(this).load(R.drawable.avatar_default).into(binding.userImg)
+        viewModel.user.observe(this){ user ->
+            Log.d("path_image", "observer: ${user.path_image}")
+            user.path_image?.let{
+                binding.userImg.setImageBitmap(Utils.stringToBitmap(it))
             }
         }
 

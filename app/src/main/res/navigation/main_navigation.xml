@@ -28,7 +28,9 @@
         tools:layout="@layout/fragment_new_game" >
         <action
             android:id="@+id/action_newGameFragment_to_gamePlayFragment"
-            app:destination="@id/gamePlayFragment" />
+            app:destination="@id/gamePlayFragment"
+            app:popUpTo="@id/newGameFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"

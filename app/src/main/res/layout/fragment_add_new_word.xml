@@ -8,7 +8,7 @@
     android:background="@drawable/bg_activity"
     android:orientation="vertical">
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/layout_tool_bar"
+        android:id="@+id/layout_tool_bar_new_word"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -17,7 +17,7 @@
         android:backgroundTint="@color/main_medium"
         >
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_edit"
+            android:id="@+id/toolbar_new_word"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:titleTextColor="@color/white"

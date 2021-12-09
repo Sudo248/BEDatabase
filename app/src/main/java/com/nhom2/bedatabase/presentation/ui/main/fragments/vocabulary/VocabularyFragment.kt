@@ -88,23 +88,21 @@ class VocabularyFragment : Fragment() {
         binding.rcvVocabularyList.adapter = adapter
     }
 
-    private fun onEditEngClick(pos: Int){
-        viewModel.setCurrentVocabulary(pos)
+    private fun onEditEngClick(eng_id: Int){
+        viewModel.setCurrentVocabulary(eng_id)
         (activity as MainActivity).navigate(R.id.action_vocabularyFragment_to_editWordFragment)
     }
 
-    private fun onDeleteEngClick(pos: Int){
-        viewModel.deleteVocabulary(pos)
+    private fun onDeleteEngClick(eng_id: Int){
+        viewModel.deleteVocabulary(eng_id)
     }
 
-    private fun onOpenVocabularyDetail(pos: Int){
-        viewModel.setCurrentVocabulary(pos)
+    private fun onOpenVocabularyDetail(eng_id: Int){
+        viewModel.setCurrentVocabulary(eng_id)
         val detailPopUp = WordDetailDialogFragment{
             (activity as MainActivity).navigate(R.id.action_vocabularyFragment_to_editWordFragment)
         }
         detailPopUp.show(childFragmentManager, null)
-
-
     }
 
 }

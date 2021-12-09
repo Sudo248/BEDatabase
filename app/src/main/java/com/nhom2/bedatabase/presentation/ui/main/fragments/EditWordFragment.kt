@@ -59,11 +59,15 @@ class EditWordFragment : Fragment() {
             (activity as MainActivity).navigate(R.id.action_editWordFragment_to_chooseGroupFragment)
         }
 
+        binding.toolbarEdit.setNavigationOnClickListener {
+            (activity as MainActivity).onBackPressed()
+        }
+
         binding.btnConfirm.setOnClickListener {
             viewModel.updateVocabulary(
                 type = binding.spnType.selectedItem.toString(),
                 content = binding.edtEnglishWord.text.toString(),
-                vn = binding.edtVnWord.text.toString(),
+                vns = binding.edtVnWord.text.toString().trim(),
                 pronunciation = binding.edtPronunciation.text.toString(),
                 pathImg = pathImg
             )
@@ -81,11 +85,19 @@ class EditWordFragment : Fragment() {
 
     private fun setVocabularyInfo(vocabulary: Eng){
         with(binding){
+            var vns = ""
+            for(i in vocabulary.vns){
+                vns += i.content + ", "
+            }
             edtEnglishWord.setText(vocabulary.content)
-            edtVnWord.setText(vocabulary.vns[0].content)
+            edtVnWord.setText(vns.dropLast(2))
             edtPronunciation.setText(vocabulary.pronunciation)
             tvGroupType.text = viewModel.getGroupNameById(vocabulary.group_id)
-            binding.spnType.setSelection(spinnerAdapter.getPosition(vocabulary.type))
+            spnType.setSelection(spinnerAdapter.getPosition(vocabulary.type))
+            vocabulary.path_image?.let{
+                imgWord.setImageBitmap(Utils.stringToBitmap(it))
+            }
+
         }
     }
 

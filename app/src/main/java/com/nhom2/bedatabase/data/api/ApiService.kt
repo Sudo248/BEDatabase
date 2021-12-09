@@ -1,9 +1,6 @@
 package com.nhom2.bedatabase.data.api
 
-import com.nhom2.bedatabase.data.models.AccountChangePassword
-import com.nhom2.bedatabase.data.models.AccountRequest
-import com.nhom2.bedatabase.data.models.AccountResponse
-import com.nhom2.bedatabase.data.models.PostEng
+import com.nhom2.bedatabase.data.models.*
 import com.nhom2.bedatabase.data.util.Utils.access_token
 import com.nhom2.bedatabase.domain.models.*
 import retrofit2.Response
@@ -45,7 +42,7 @@ interface ApiService {
     suspend fun putEng(@Body eng: Eng, @Header("access_token") token: String? = access_token): Response<Boolean>
 
     @POST("/eng")
-    suspend fun postEng(@Body eng: PostEng, @Header("access_token") token: String? = access_token)
+    suspend fun postEng(@Body eng: PostEng, @Header("access_token") token: String? = access_token): ResponseEng
 
     @DELETE("/eng/{id}")
     suspend fun deleteEngById(@Path("id") id: Int, @Header("access_token") token: String? = access_token)

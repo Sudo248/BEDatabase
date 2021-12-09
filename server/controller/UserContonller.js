@@ -62,6 +62,8 @@ module.exports.putUser = async(req, res, next) => {
             user_name,
             path_image
         } = req.body;
+        
+        console.log(req.body)
 
         const user = new UserDB(user_id, user_name, path_image);
 

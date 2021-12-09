@@ -33,27 +33,28 @@
 
         <TextView
             android:id="@+id/tv_slash"
-            android:text="  -  "
-            android:textSize="24sp"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/tv_vocabulary_pronunciation"
+            android:text="  -  "
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_name_vocabulary"
             app:layout_constraintEnd_toStartOf="@+id/tv_mean_vocabulary"
             app:layout_constraintStart_toEndOf="@+id/tv_name_vocabulary"
             app:layout_constraintTop_toTopOf="@+id/tv_name_vocabulary" />
+
         <TextView
             android:id="@+id/tv_mean_vocabulary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Yeu"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintBottom_toTopOf="@+id/tv_vocabulary_pronunciation"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_slash"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/tv_slash"
-            app:layout_constraintTop_toTopOf="@+id/tv_name_vocabulary" />
+            app:layout_constraintTop_toTopOf="@+id/tv_slash"
+            tools:text="Yeu" />
 
         <TextView
             android:id="@+id/tv_vocabulary_pronunciation"
@@ -63,6 +64,7 @@
             android:textColor="@color/black"
             android:textSize="16sp"
             android:singleLine="true"
+            android:layout_marginTop="12dp"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -56,8 +56,4 @@ module.exports = class GroupEng{
         `;
         return db.execute(sql);
     }
-
-
-
-
 }

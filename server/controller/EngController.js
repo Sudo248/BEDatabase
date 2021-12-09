@@ -123,6 +123,8 @@ module.exports.postEng = async(req, res, next) => {
             vns
         } = req.body;
 
+        if(path_image === 'undefined') path_image = null
+
         const eng = new EngDB(
             null,
             group_id,
@@ -149,7 +151,7 @@ module.exports.postEng = async(req, res, next) => {
 
         await junctionUserEng.insert();
 
-        console.log("Add new word success")
+        console.log("Add new word success", newEngId)
 
         res.status(200).json({id: newEngId})
         
@@ -183,9 +185,17 @@ module.exports.putEng = async(req, res, next) => {
         )
         
         for(vn of vns){
-            const newVn = new VnDB(vn.vn_id, vn.eng_id, vn.content)
-            newVn.update()
+            
+            if(vn.vn_id == null){
+                const newVn = new VnDB(null, vn.eng_id, vn.content)
+                newVn.insert()
+            }else{
+                const newVn = new VnDB(vn.vn_id, vn.eng_id, vn.content)
+                newVn.update()
+            }
+
         }
+
         await eng.update()
 
         console.log(`update eng ${eng.eng_id} success`)

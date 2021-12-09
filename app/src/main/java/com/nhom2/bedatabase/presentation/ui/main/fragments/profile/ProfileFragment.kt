@@ -65,6 +65,7 @@ class ProfileFragment : Fragment() {
                     edtNameUser.isFocusable = true
                     edtNameUser.isFocusableInTouchMode = true
                     edtNameUser.isClickable = true
+                    edtNameUser.requestFocus()
                 }
             }
             root.setOnClickListener {

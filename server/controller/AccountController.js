@@ -61,6 +61,7 @@ module.exports.signIn = async(req, res, next) => {
         // console.log(hashPassword)
 
         const isPasswordValid = bcrypt.compareSync(password, account.password);
+        
         if(!isPasswordValid){
             console.log("Wrong password")
             return res.status(401).send("Wrong password")

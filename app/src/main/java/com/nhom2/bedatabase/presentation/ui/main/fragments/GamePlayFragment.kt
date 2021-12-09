@@ -48,6 +48,11 @@ class GamePlayFragment : Fragment() {
         }
 
         with(binding){
+
+            toolbarGame.setNavigationOnClickListener {
+                (activity as MainActivity).onBackPressed()
+            }
+
             btnAnswer1.setOnClickListener {
                 viewModel.checkAnswer(0)
             }
