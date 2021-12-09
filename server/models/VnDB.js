@@ -68,7 +68,7 @@ module.exports = class VnDB{
     static deleteVnByEngId(eng_id){
         const sql = `
         DELETE FROM vns
-        WHERE eng_id = ${id};
+        WHERE eng_id = ${eng_id};
         `;
         return db.execute(sql);
     }

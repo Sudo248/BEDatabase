@@ -13,7 +13,7 @@ CREATE TABLE
 users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     user_name VARCHAR(50),
-    path_image VARCHAR(50)
+    path_image TEXT
 );
     
 
@@ -32,7 +32,7 @@ engs (
     pronunciation VARCHAR(255),
     content VARCHAR(255),
     type VARCHAR(255),
-    path_image VARCHAR(100),
+    path_image TEXT,
     FOREIGN KEY (group_id) REFERENCES group_engs(group_id)
 );
 

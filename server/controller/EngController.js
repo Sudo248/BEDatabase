@@ -201,9 +201,10 @@ module.exports.deleteEngById = async(req, res, next) => {
     try {
 
         const id = req.params.id
-        await EngDB.deleteEngById(id)
+        console.log("Delete eng", id)
         await VnDB.deleteVnByEngId(id)
-
+        await JunctionUserEng.deleteJunctionByEngId(id)
+        await EngDB.deleteEngById(id)
         res.status(200).json({message:"Delete Eng success"})
         
     } catch (error) {
