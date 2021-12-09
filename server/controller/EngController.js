@@ -113,7 +113,7 @@ module.exports.postEng = async(req, res, next) => {
         
         console.log("post Eng", req.body)
 
-        const{
+        let{
             user_id,
             group_id,
             pronunciation,
@@ -123,7 +123,7 @@ module.exports.postEng = async(req, res, next) => {
             vns
         } = req.body;
 
-        if(path_image === 'undefined') path_image = null
+        if(typeof path_image === 'undefined') path_image = null
 
         const eng = new EngDB(
             null,
