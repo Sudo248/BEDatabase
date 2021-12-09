@@ -65,7 +65,7 @@ class EditWordFragment : Fragment() {
                 content = binding.edtEnglishWord.text.toString(),
                 vn = binding.edtVnWord.text.toString(),
                 pronunciation = binding.edtPronunciation.text.toString(),
-                pathImg = null
+                pathImg = pathImg
             )
             (activity as MainActivity).onBackPressed()
         }
