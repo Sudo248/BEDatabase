@@ -14,6 +14,7 @@ import com.nhom2.bedatabase.domain.common.Constants.CURRENT_GROUP_ID
 import com.nhom2.bedatabase.presentation.ui.main.MainActivity
 import com.nhom2.bedatabase.presentation.ui.main.MainViewModel
 import com.nhom2.bedatabase.presentation.ui.main.adapter.VocabularyAdapter
+import com.nhom2.bedatabase.presentation.ui.main.fragments.dialogfragment.WordDetailDialogFragment
 
 class VocabularyFragment : Fragment() {
 
@@ -79,6 +80,9 @@ class VocabularyFragment : Fragment() {
             },
             onDeleteEngClick = {
                 onDeleteEngClick(it)
+            },
+            onEngClick = {
+                onOpenVocabularyDetail(it)
             }
         )
         binding.rcvVocabularyList.adapter = adapter
@@ -91,6 +95,16 @@ class VocabularyFragment : Fragment() {
 
     private fun onDeleteEngClick(pos: Int){
         viewModel.deleteVocabulary(pos)
+    }
+
+    private fun onOpenVocabularyDetail(pos: Int){
+        viewModel.setCurrentVocabulary(pos)
+        val detailPopUp = WordDetailDialogFragment{
+            (activity as MainActivity).navigate(R.id.action_vocabularyFragment_to_editWordFragment)
+        }
+        detailPopUp.show(childFragmentManager, null)
+
+
     }
 
 }

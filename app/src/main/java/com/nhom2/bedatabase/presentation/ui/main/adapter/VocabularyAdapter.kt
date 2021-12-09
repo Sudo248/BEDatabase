@@ -11,7 +11,8 @@ import com.nhom2.bedatabase.domain.models.Eng
 
 class VocabularyAdapter(
     private val onEditEngClick: (pos: Int) -> Unit,
-    private val onDeleteEngClick: (pos: Int) -> Unit
+    private val onDeleteEngClick: (pos: Int) -> Unit,
+    private val onEngClick: (pos: Int) -> Unit
 ) : ListAdapter<Eng, VocabularyAdapter.ViewHolder>(
     object : DiffUtil.ItemCallback<Eng>(){
         override fun areItemsTheSame(oldItem: Eng, newItem: Eng): Boolean = oldItem.eng_id == newItem.eng_id
@@ -31,10 +32,10 @@ class VocabularyAdapter(
                 btnDeleteVocabulary.setOnClickListener {
                     onDeleteEngClick(pos)
                 }
-//
-//                root.setOnClickListener {
-//                    onEngClick(pos)
-//                }
+
+                root.setOnClickListener {
+                    onEngClick(pos)
+                }
             }
         }
     }

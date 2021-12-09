@@ -109,6 +109,7 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
         viewModel.vocabularies.observe(viewLifecycleOwner){
             binding.tvNumVocabularyProfile.text = it.size.toString()
         }
