@@ -1,6 +1,9 @@
 package com.nhom2.bedatabase.presentation.ui.main.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import com.nhom2.bedatabase.R
+import com.nhom2.bedatabase.data.util.Utils
 import com.nhom2.bedatabase.databinding.FragmentAddNewWordBinding
+import com.nhom2.bedatabase.domain.common.Constants
 import com.nhom2.bedatabase.domain.common.Constants.ADD_ACTION
 import com.nhom2.bedatabase.domain.models.Eng
 import com.nhom2.bedatabase.domain.models.Vn
@@ -29,6 +34,7 @@ class AddNewWordFragment : Fragment() {
     private var choosedGroup = false
 
     private lateinit var spinnerAdapter: ArrayAdapter<CharSequence>
+    private var pathImg: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +95,11 @@ class AddNewWordFragment : Fragment() {
             viewModel.postVocabulary(getVocabulary())
             (activity as MainActivity).onBackPressed()
         }
+        binding.imgWord.setOnClickListener {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), Constants.REQUEST_SELECT_AVATAR)
+        }
     }
 
     override fun onDestroyView() {
@@ -105,7 +116,7 @@ class AddNewWordFragment : Fragment() {
                     content = edtAddNewEnglishWord.text.toString(),
                     type = spnAddNewType.selectedItem.toString(),
                     vns = listOf(Vn(null, null, edtAddNewVnWord.text.toString())),
-                    path_image = null
+                    path_image = pathImg
              )
         }
     }
@@ -119,7 +130,13 @@ class AddNewWordFragment : Fragment() {
             binding.spnAddNewType.setSelection(spinnerAdapter.getPosition(vocabulary.type))
         }
     }
-
-
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == Constants.REQUEST_SELECT_AVATAR){
+            data?.data?.let{
+                Log.e("path image", "$it" )
+                binding.imgWord.setImageURI(it)
+                pathImg = Utils.bitmapToString(MediaStore.Images.Media.getBitmap(requireContext().contentResolver, it))
+            }
+        }
+    }
 }
