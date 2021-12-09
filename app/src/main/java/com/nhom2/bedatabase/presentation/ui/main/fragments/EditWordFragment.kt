@@ -79,7 +79,8 @@ class EditWordFragment : Fragment() {
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), Constants.REQUEST_SELECT_AVATAR)
         }
         pathImg?.let{
-            binding.imgWord.setImageBitmap(Utils.stringToBitmap(it))
+            if(it != "null" && it != "undefined")
+                binding.imgWord.setImageBitmap(Utils.stringToBitmap(it))
         }
     }
 
@@ -95,7 +96,8 @@ class EditWordFragment : Fragment() {
             tvGroupType.text = viewModel.getGroupNameById(vocabulary.group_id)
             spnType.setSelection(spinnerAdapter.getPosition(vocabulary.type))
             vocabulary.path_image?.let{
-                imgWord.setImageBitmap(Utils.stringToBitmap(it))
+                if(it != "null" && it != "undefined")
+                    imgWord.setImageBitmap(Utils.stringToBitmap(it))
             }
 
         }

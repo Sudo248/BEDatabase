@@ -106,7 +106,8 @@ class ProfileFragment : Fragment() {
             if (!it.path_image.isNullOrBlank())
             {
                 it.path_image?.let { s ->
-                    binding.imgAvatar.setImageBitmap(Utils.stringToBitmap(s))
+                    if(s != "null" && s != "undefined")
+                        binding.imgAvatar.setImageBitmap(Utils.stringToBitmap(s))
                 }
             }
         }

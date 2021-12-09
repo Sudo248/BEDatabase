@@ -56,7 +56,8 @@ class WordDetailDialogFragment(
                     tvGroupType.text = viewModel.getGroupNameById(it.group_id)
                     tvType.text = it.type
                     it.path_image?.let{ img ->
-                        imgWord.setImageBitmap(Utils.stringToBitmap(img))
+                        if(img != "null" && img != "undefined")
+                            imgWord.setImageBitmap(Utils.stringToBitmap(img))
                     }
                 }
             }

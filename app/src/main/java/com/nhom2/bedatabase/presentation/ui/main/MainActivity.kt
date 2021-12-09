@@ -55,8 +55,11 @@ class MainActivity : AppCompatActivity() {
     private fun observer(){
         viewModel.user.observe(this){ user ->
             Log.d("path_image", "observer: ${user.path_image}")
+
             user.path_image?.let{
-                binding.userImg.setImageBitmap(Utils.stringToBitmap(it))
+                Log.d(TAG, "observer: $it")
+                if(it != "null" && it != "undefined")
+                    binding.userImg.setImageBitmap(Utils.stringToBitmap(it))
             }
         }
 

@@ -19,13 +19,6 @@ module.exports = class EngDB{
 
     insert(){
 
-        let image
-        if(this.path_image == null){
-            image = null
-        }else{
-            image = `${this.path_image}`
-        }
-
         const sql = `
         INSERT INTO engs
         VALUES(
@@ -34,7 +27,7 @@ module.exports = class EngDB{
             '${this.pronunciation}',
             '${this.content}',
             '${this.type}',
-            ${image}
+            '${this.path_image}'
         );
         `;
         return db.execute(sql);
